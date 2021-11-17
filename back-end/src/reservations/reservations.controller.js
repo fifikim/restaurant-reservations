@@ -6,6 +6,7 @@ const { destroy } = require('../db/connection');
 
 //validates that reservation has required inputs
 function hasRequiredInputs(req, res, next) {
+  console.log('req', req);
   const reservation = req.body.data;
   if (!reservation) {
     return next({
