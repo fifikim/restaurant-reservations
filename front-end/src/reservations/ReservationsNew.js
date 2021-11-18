@@ -13,7 +13,7 @@ function ReservationsNew() {
   function newRes(reservation) {    // onSuccess handler: creates res via api
     createRes(reservation) // post call & redirects to res date dashboard
       .then((newReservation) => 
-      history.push(`/dashboard?date=${newReservation.reservation_date}`));
+        history.push(`/dashboard?date=${newReservation.reservation_date}`));
   }
 
   function cancel() {             // cancel button redirects to dashboard page

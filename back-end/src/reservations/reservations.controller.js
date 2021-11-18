@@ -56,6 +56,35 @@ function hasValidDate(req, res, next) {
       message: 'Reservation must have a valid reservation_date',
     });
   }
+  res.locals.date = date;
+  next();
+}
+
+// validates that reservation date is in the future
+function hasFutureDate(req, res, next) {
+  const dateTime = res.locals.date + ' ' + res.locals.time;
+  const reservationDate = new Date(dateTime);
+  const todaysDate = new Date();
+  if (todaysDate >= reservationDate) {
+    return next({
+      status: 400,
+      message: 'Reservation must occur in the future',
+    });
+  }
+  next();
+}
+
+// validates that reservation date is not on a Tuesday
+function hasValidDay(req, res, next) {
+  const dateTime = res.locals.date + ' ' + res.locals.time;
+  const reservationDate = new Date(dateTime);
+  const day = reservationDate.getDay();
+  if (day === 2) {
+    return next({
+      status: 400,
+      message: 'Restaurant is closed on Tuesdays. Please select a different date.',
+    });
+  }
   next();
 }
 
@@ -69,7 +98,31 @@ function hasValidTime(req, res, next) {
       message: 'Reservation must have a valid reservation_time',
     });
   }
+  res.locals.time = time;
   next();
+}
+
+// validates that reservation time is within permitted timeframe
+function hasPermittedTime(req, res, next) {
+  const hour = res.locals.time.split(':')[0];
+  const min = res.locals.time.split(':')[1];
+
+  const reservationTime = new Date();
+  reservationTime.setHours(hour, min);
+
+  const openingTime = new Date();
+  openingTime.setHours(10, 30);
+
+  const lastCall = new Date();
+  lastCall.setHours(21, 30);
+
+  if (reservationTime >= openingTime && reservationTime <= lastCall) {
+    return next();
+  }
+  return next({
+    status: 400,
+    message: 'Reservation must occur between 10:30AM and 9:30PM',
+  });
 }
 
 // validates that a reservation to read/update/delete exists
@@ -114,7 +167,7 @@ async function list(req, res) {
 }
 
 module.exports = {
-  create: [hasRequiredInputs, hasValidNumOfPpl, hasValidDate, hasValidTime, asyncErrorBoundary(create)],
+  create: [hasRequiredInputs, hasValidNumOfPpl, hasValidDate, hasValidTime, hasFutureDate, hasValidDay, hasPermittedTime, asyncErrorBoundary(create)],
   read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
   // update: [asyncErrorBoundary(reservationExists), hasRequiredInputs, hasValidNumOfPpl, asyncErrorBoundary(update)],
   // delete: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(destroy)],
