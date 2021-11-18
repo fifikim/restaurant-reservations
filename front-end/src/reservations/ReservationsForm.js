@@ -6,7 +6,7 @@ import { validateForm } from './ReservationsValidation';
  * 
  * @param {object} props passed from parent route
  * 
- * @returns ReservationsForm component for Add Card & Edit Card routes
+ * @returns ReservationsForm component for New Reservation & Edit Reservation routes
  */
 function ReservationsForm({
   onSuccess,                  // form onSubmit handler
@@ -41,6 +41,7 @@ function ReservationsForm({
     }
   };
 
+  // displays validation error message as alert components
   const errorsList = errors.map((error) => (
     <li>
       <div className="alert alert-danger m-2">Error: {error}</div>
