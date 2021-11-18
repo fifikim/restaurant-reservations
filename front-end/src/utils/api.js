@@ -89,3 +89,19 @@ export async function createRes(reservation, signal) {
   // console.log('createRes result', result);
   return result;
 }
+
+export async function createTable(table, signal) {
+  // console.log('reservation to create', reservation);
+  const url = `${API_BASE_URL}/tables`;
+  table.capacity = Number(table.capacity);
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data: table }),
+    signal,
+  };
+  // console.log('options', options);
+  const result = await fetchJson(url, options, {});
+  // console.log('createRes result', result);
+  return result;
+}
