@@ -26,7 +26,7 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   }
 
-  function goYesterday() {
+  function goPreviousDay() {
     history.push(`/dashboard?date=${previous(date)}`)
   }
 
@@ -34,7 +34,7 @@ function Dashboard({ date }) {
     history.push(`/dashboard?date=${today()}`)
   }
 
-  function goTomorrow() {
+  function goNextDay() {
     history.push(`/dashboard?date=${next(date)}`)
   }
 
@@ -43,9 +43,9 @@ function Dashboard({ date }) {
       <h1>Dashboard</h1>
 
       <div className="btn-group" role="group" aria-label="Basic example">
-        <button type="button" className="btn btn-secondary" onClick={goYesterday}>Previous Day</button>
+        <button type="button" className="btn btn-secondary" onClick={goPreviousDay}>Previous Day</button>
         <button type="button" className="btn btn-secondary" onClick={goToday}>Today</button>
-        <button type="button" className="btn btn-secondary" onClick={goTomorrow}>Next Day</button>
+        <button type="button" className="btn btn-secondary" onClick={goNextDay}>Next Day</button>
       </div>
 
       <div className="d-md-flex mb-3">
