@@ -19,23 +19,36 @@ function list() {
 function read(id) {
   return knex("tables")
     .select("*")
-    .where({ "table_id": id });
+    .where({ "table_id": id })
+    .first();
+}
+
+// read reservation by reservation id
+function readReservation(id) {
+  return knex("reservations")
+    .select("*")
+    .where({ "reservation_id": id })
+    .first();
 }
 
 // update table by table id
-function update(id) {
-  return 
+function update(table_id, seatRequest) {
+  return knex("tables")
+    .select("*")
+    .where({ table_id })
+    .update(seatRequest, "*");
 }
 
 // delete table assignment to reservation_id by table_id
-function destroy(id) {
-  return 
-}
+// function destroy(id) {
+//   return 
+// }
 
 module.exports = {
   create,
   list,
   read,
+  readReservation,
   update,
-  destroy,
+  // destroy,
 };

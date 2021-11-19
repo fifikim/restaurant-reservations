@@ -14,7 +14,7 @@ function hasRequiredInputs(req, res, next) {
       message: `Reservation must include all required fields`,
     });
   }
-  const REQUIRED_PROPERTIES =   [
+  const REQUIRED_PROPERTIES = [
     'first_name',
     'last_name',
     'mobile_number',

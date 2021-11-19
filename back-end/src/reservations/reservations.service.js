@@ -17,7 +17,8 @@ function list(date) {
 function read(id) {
   return knex("reservations")
     .select("*")
-    .where({ "reservation_id": id });
+    .where({ "reservation_id": id })
+    .first();
 }
 
 module.exports = {
