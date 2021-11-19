@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
-import { listReservations } from "../utils/api";
+import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { today, previous, next } from "../utils/date-time";
+import ReservationsView from "./ViewReservations";
+import TablesView from "./ViewTables";
 
 /**
  * Defines the dashboard page.
@@ -12,10 +14,12 @@ import { today, previous, next } from "../utils/date-time";
  */
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
+  const [tables, setTables] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
   const history = useHistory();
 
   useEffect(loadDashboard, [date]);
+  // useEffect(loadTables, []);
 
   function loadDashboard() {
     const abortController = new AbortController();
@@ -23,8 +27,14 @@ function Dashboard({ date }) {
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
+    // listTables().then(setTables);
     return () => abortController.abort();
   }
+
+  // function loadTables() {
+  //   const tables = listTables();
+  //   console.log({tables});
+  // }
 
   function goPreviousDay() {
     history.push(`/dashboard?date=${previous(date)}`)
@@ -53,6 +63,8 @@ function Dashboard({ date }) {
       </div>
       <ErrorAlert error={reservationsError} />
       {JSON.stringify(reservations)}
+      {/* <ReservationsView reservations={JSON.stringify(reservations)} /> */}
+      {/* <TablesView tables={tables} /> */}
     </main>
   );
 }
