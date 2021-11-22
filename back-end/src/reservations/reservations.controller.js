@@ -14,7 +14,7 @@ function hasRequiredInputs(req, res, next) {
       message: `Reservation must include all required fields`,
     });
   }
-  const REQUIRED_PROPERTIES =   [
+  const REQUIRED_PROPERTIES = [
     'first_name',
     'last_name',
     'mobile_number',
@@ -129,7 +129,7 @@ function hasPermittedTime(req, res, next) {
 async function reservationExists(req, res, next) {
   const reservationId = req.params.reservation_id;
   const foundReservation = await service.read(reservationId);
-  if (foundReservation) {
+  if (!foundReservation) {
     next({
       status: 404,
       message: `Reservation ID not found: ${reservationId}`,

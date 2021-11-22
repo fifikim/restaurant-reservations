@@ -7,7 +7,7 @@ import ReservationsForm from './ReservationsForm';
  * 
  * @returns renders page view for New Reservation route
  */
-function ReservationsNew() {
+function NewReservation() {
   const history = useHistory();
 
   function newRes(reservation) {    // onSuccess handler: creates res via api
@@ -32,4 +32,4 @@ function ReservationsNew() {
   )
 }
 
-export default ReservationsNew;
+export default NewReservation;

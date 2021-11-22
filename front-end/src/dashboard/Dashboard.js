@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useHistory } from 'react-router-dom';
-import { listReservations } from "../utils/api";
-import ErrorAlert from "../layout/ErrorAlert";
 import { today, previous, next } from "../utils/date-time";
+import ViewReservations from "./ViewReservations";
+import ViewTables from "./ViewTables";
 
 /**
  * Defines the dashboard page.
@@ -11,20 +11,7 @@ import { today, previous, next } from "../utils/date-time";
  * @returns {JSX.Element}
  */
 function Dashboard({ date }) {
-  const [reservations, setReservations] = useState([]);
-  const [reservationsError, setReservationsError] = useState(null);
   const history = useHistory();
-
-  useEffect(loadDashboard, [date]);
-
-  function loadDashboard() {
-    const abortController = new AbortController();
-    setReservationsError(null);
-    listReservations({ date }, abortController.signal)
-      .then(setReservations)
-      .catch(setReservationsError);
-    return () => abortController.abort();
-  }
 
   function goPreviousDay() {
     history.push(`/dashboard?date=${previous(date)}`)
@@ -51,10 +38,42 @@ function Dashboard({ date }) {
       <div className="d-md-flex mb-3">
         <h4 className="mb-0">Reservations for date:  {date} </h4>
       </div>
-      <ErrorAlert error={reservationsError} />
-      {JSON.stringify(reservations)}
+
+      <div className="d-md-flex mb-3">
+        <ViewTables />
+      </div>
+      <div className="d-md-flex mb-3">
+        <ViewReservations date={date} />
+      </div>
     </main>
   );
 }
 
 export default Dashboard;
+
+// import { listReservations, listTables } from "../utils/api";
+// import ErrorAlert from "../layout/ErrorAlert";
+
+  // const [reservations, setReservations] = useState([]);
+  // const [reservationsError, setReservationsError] = useState(null);
+  // useEffect(loadDashboard, [date]);
+  // useEffect(loadTables, []);
+
+  // function loadDashboard() {
+  //   const abortController = new AbortController();
+  //   setReservationsError(null);
+  //   listReservations({ date }, abortController.signal)
+  //     .then(setReservations)
+  //     .catch(setReservationsError);
+  //   return () => abortController.abort();
+  // }
+
+  // function loadTables() {
+  // listTables().then(setTables);
+  //   const tables = listTables();
+  //   console.log({tables});
+  // }
+
+  // return 
+  // <ErrorAlert error={reservationsError} />
+  // {JSON.stringify(reservations)} */}
