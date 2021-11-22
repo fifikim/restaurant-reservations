@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import { Link } from "react-router-dom";
 import { listTables, unseatRes } from "../utils/api";
 
 function TablesView({date}) {
@@ -14,29 +13,26 @@ function TablesView({date}) {
     return () => ac.abort();
   }
 
-  const finish = () => {
+  const finish = ({target}) => {
+    const tableId = target.dataset.tableIdFinish;
     const finishConfirm = window.confirm(
       "Is this table ready to seat new guests? This cannot be undone."
     );
     if (finishConfirm) {
-      console.log('finish Table');
-      unseatRes().then(loadTables);
+      unseatRes(tableId).then(loadTables);
     }
   };
-
-  const finishButton = (
-    <button type="button" onClick={finish} className="btn btn-secondary mr-2">
-      Finish
-    </button>
-  );
 
   const tablesList = tables.map((table) => (
     <tr key={table.table_id}>
     <th scope="row">{table.table_id}</th>
     <td>{table.table_name}</td>
     <td>{table.capacity}</td>
-    <td>{table.reservation_id ? `Occupied by Reservation #${table.reservation_id}` : `Free`}</td>
-    <td>{table.reservation_id ? finishButton : null}</td>
+    <td data-table-id-status={table.table_id}>{table.reservation_id ? `Occupied by Reservation #${table.reservation_id}` : `Free`}</td>
+    <td>{table.reservation_id ? 
+      <button type="button" onClick={finish} data-table-id-finish={table.table_id} className="btn btn-secondary mr-2">
+        Finish 
+      </button> : null}</td>
   </tr>
   ));
 

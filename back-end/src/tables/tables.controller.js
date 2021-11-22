@@ -64,6 +64,7 @@ async function tableExists(req, res, next) {
     });
   }
   res.locals.table = foundTable;
+  res.locals.tableId = tableId;
   return next();
 }
 
@@ -147,7 +148,6 @@ async function tableIsOccupied(req, res, next) {
 
 // ROUTE HANDLERS
 
-
 // Create new table
 async function create(req, res, next) {
   const newTable = res.locals.table;
@@ -162,20 +162,19 @@ function read(req, res) {
 }
 
 // Update table by table ID to add reservation_id to tables/reservation_id
-async function update(req, res) {
+async function seat(req, res) {
   const seatRequest = res.locals.seatRequest;
   const tableId = res.locals.table.table_id;
-  await service.update(tableId, seatRequest);
+  await service.seat(tableId, seatRequest);
   const result = await service.read(tableId);
   res.status(200).json({ data: result });
 }
 
-
 // Delete table assignment by table ID
-async function destroy(req, res) {
-  const reservation_id = res.locals.table.reservation_id;
-  await service.delete(reservation_id);
-  res.status(200);
+async function finish(req, res) {
+  const tableId = res.locals.tableId;
+  const result = await service.finish(tableId);
+  res.status(200).json({ data: result });
 }
  
 // List all tables
@@ -187,7 +186,7 @@ async function list(req, res) {
 module.exports = {
   create: [hasRequiredInputs, hasValidName, hasMinCapacity, asyncErrorBoundary(create)],
   read: [asyncErrorBoundary(tableExists), asyncErrorBoundary(read)],
-  update: [asyncErrorBoundary(tableExists), hasReservationId, reservationExists, hasEnoughSeats, tableIsFree, asyncErrorBoundary(update)],
-  delete: [asyncErrorBoundary(tableExists), tableIsOccupied, asyncErrorBoundary(destroy)],
+  update: [asyncErrorBoundary(tableExists), hasReservationId, reservationExists, hasEnoughSeats, tableIsFree, asyncErrorBoundary(seat)],
+  delete: [asyncErrorBoundary(tableExists), tableIsOccupied, asyncErrorBoundary(finish)],
   list: asyncErrorBoundary(list),
 };

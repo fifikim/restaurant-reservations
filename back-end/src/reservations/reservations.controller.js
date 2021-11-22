@@ -1,6 +1,5 @@
 const service = require('./reservations.service');
 const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
-const { destroy } = require('../db/connection');
 
 // ROUTER MIDDLEWARE
 
