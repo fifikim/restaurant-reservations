@@ -1,33 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import { listTables } from "../utils/api";
 
+function ReservationsView({date}) {
+  const [tables, setTables] = useState([]);
 
-const TablesView = (tables) => {
-  const tablesList = tables.map((table) => (    // maps each deck in decks to jsx render
-    <div
-      key={table.table_id}
-      className="col-12 col-md-6 my-2 align-self-stretch"
-    >
-      <article className="border rounded p-4 h-100">
-        <div className="d-flex w-100 justify-content-between">
-          <h5 className="mb-1">{table.name}</h5>
-          <small>Capacity: {table.capacity} </small>
-        </div>
-        <button
-          className="btn btn-danger float-right"
-          title="Delete deck"
-        >
-          Seat
-        </button>
-      </article>
-    </div>
+  useEffect(loadReservations, [date]);      
+           
+  function loadReservations() {                  
+    const ac = new AbortController();
+    listTables({}, ac.signal)
+      .then(setTables)
+    return () => ac.abort();
+  }
+
+  const tablesList = tables.map((table) => (
+    <tr key={table.table_id}>
+    <th scope="row">{table.table_id}</th>
+    <td>{table.table_name}</td>
+    <td>{table.capacity}</td>
+    <td>{table.reservation_id ? `Occupied by Reservation #${table.reservation_id}` : `Free`}</td>
+  </tr>
   ));
 
   return (
     <>
-      <div className="row mt-2 deck-list">{tablesList}</div>
+      <table className="table">
+        <thead className="thead-dark">
+          <tr>
+            <th scope="col">Table ID</th>
+            <th scope="col">Table Name</th>
+            <th scope="col">Capacity</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tablesList}
+        </tbody>
+      </table>
     </>
   );
 }
 
-export default TablesView;
+export default ReservationsView;

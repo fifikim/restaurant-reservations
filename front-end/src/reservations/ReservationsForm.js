@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { validateForm } from './ReservationsValidation';
+import ErrorAlert from '../layout/ErrorAlert';
+import { validateForm } from '../utils/reservations-validation';
 
-/**
- * 
- * @param {object} props passed from parent route
- * 
- * @returns ReservationsForm component for New Reservation & Edit Reservation routes
- */
 function ReservationsForm({
   onSuccess,                  // form onSubmit handler
   onCancel,                   // cancel button onClick handler
@@ -16,7 +10,6 @@ function ReservationsForm({
 
   const [formData, setFormData] = useState({...initialState});
   const [errors, setErrors] = useState([]);
-  const history = useHistory();
 
   const handleInputChange = ({target}) => {  
     setFormData({                            // saves form input in formData
@@ -37,15 +30,12 @@ function ReservationsForm({
     // if no errors, submit api post call & navigate to dashboard
     else {
       await onSuccess({ ...formData });      
-      history.push(`/dashboard?date=${formData.reservation_date}`);
     }
   };
 
   // displays validation error message as alert components
   const errorsList = errors.map((error) => (
-    <li>
-      <div className="alert alert-danger m-2">Error: {error}</div>
-    </li>
+    <ErrorAlert error={error} />
   ));
 
   return (
