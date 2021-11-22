@@ -32,23 +32,27 @@ function readReservation(id) {
 }
 
 // update table by table id
-function update(table_id, seatRequest) {
+function seat(table_id, seatRequest) {
   return knex("tables")
     .select("*")
     .where({ table_id })
     .update(seatRequest, "*");
 }
 
-// delete table assignment to reservation_id by table_id
-// function destroy(id) {
-//   return 
-// }
+// // delete table assignment to reservation_id by table_id
+function finish(table_id) {
+  const unseat = {"reservation_id": null};
+  return knex("tables")
+    .select("*")
+    .where({ table_id })
+    .update(unseat, "*");
+}
 
 module.exports = {
   create,
   list,
   read,
   readReservation,
-  update,
-  // destroy,
+  seat,
+  finish,
 };

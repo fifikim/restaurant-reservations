@@ -1,24 +1,38 @@
 import React, {useEffect, useState} from "react";
-import { listTables } from "../utils/api";
+import { listTables, unseatRes } from "../utils/api";
 
-function ReservationsView({date}) {
+function TablesView({date}) {
   const [tables, setTables] = useState([]);
 
-  useEffect(loadReservations, [date]);      
+  useEffect(loadTables, [date]);      
            
-  function loadReservations() {                  
+  function loadTables() {                  
     const ac = new AbortController();
     listTables({}, ac.signal)
       .then(setTables)
     return () => ac.abort();
   }
 
+  const finish = ({target}) => {
+    const tableId = target.dataset.tableIdFinish;
+    const finishConfirm = window.confirm(
+      "Is this table ready to seat new guests? This cannot be undone."
+    );
+    if (finishConfirm) {
+      unseatRes(tableId).then(loadTables);
+    }
+  };
+
   const tablesList = tables.map((table) => (
     <tr key={table.table_id}>
     <th scope="row">{table.table_id}</th>
     <td>{table.table_name}</td>
     <td>{table.capacity}</td>
-    <td>{table.reservation_id ? `Occupied by Reservation #${table.reservation_id}` : `Free`}</td>
+    <td data-table-id-status={table.table_id}>{table.reservation_id ? `Occupied by Reservation #${table.reservation_id}` : `Free`}</td>
+    <td>{table.reservation_id ? 
+      <button type="button" onClick={finish} data-table-id-finish={table.table_id} className="btn btn-secondary mr-2">
+        Finish 
+      </button> : null}</td>
   </tr>
   ));
 
@@ -42,4 +56,4 @@ function ReservationsView({date}) {
   );
 }
 
-export default ReservationsView;
+export default TablesView;
