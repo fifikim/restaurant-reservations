@@ -132,6 +132,19 @@ async function tableIsFree(req, res, next) {
   return next();
 }
 
+// validates that a table is free to seat a reservation
+async function tableIsOccupied(req, res, next) {
+  const table = res.locals.table;
+  const foundReservation = table.reservation_id;
+  if (foundReservation === null) {
+    next({
+      status: 400,
+      message: `Table ${table.table_name} is not occupied`,
+    });
+  }
+  return next();
+}
+
 // ROUTE HANDLERS
 
 
@@ -160,7 +173,9 @@ async function update(req, res) {
 
 // Delete table assignment by table ID
 async function destroy(req, res) {
-
+  const reservation_id = res.locals.table.reservation_id;
+  await service.delete(reservation_id);
+  res.status(200);
 }
  
 // List all tables
@@ -173,6 +188,6 @@ module.exports = {
   create: [hasRequiredInputs, hasValidName, hasMinCapacity, asyncErrorBoundary(create)],
   read: [asyncErrorBoundary(tableExists), asyncErrorBoundary(read)],
   update: [asyncErrorBoundary(tableExists), hasReservationId, reservationExists, hasEnoughSeats, tableIsFree, asyncErrorBoundary(update)],
-  // delete: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(destroy)],
+  delete: [asyncErrorBoundary(tableExists), tableIsOccupied, asyncErrorBoundary(destroy)],
   list: asyncErrorBoundary(list),
 };

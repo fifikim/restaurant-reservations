@@ -52,12 +52,8 @@ async function fetchJson(url, options, onCancel) {
   }
 }
 
-/**
- * Retrieves all existing reservation.
- * @returns {Promise<[reservation]>}
- *  a promise that resolves to a possibly empty array of reservation saved in the database.
- */
 
+// RESERVATIONS API CALLS
 export async function listReservations(params, signal) {
   const url = new URL(`${API_BASE_URL}/reservations`);
   Object.entries(params).forEach(([key, value]) =>
@@ -68,22 +64,7 @@ export async function listReservations(params, signal) {
     .then(formatReservationTime);
 }
 
-export async function listTables(params, signal) {
-  const url = new URL(`${API_BASE_URL}/tables`);
-  Object.entries(params).forEach(([key, value]) =>
-    url.searchParams.append(key, value.toString())
-  );
-  return await fetchJson(url, { headers, signal }, []);
-}
-
-/**
- * Creates a new reservation.
- * @returns {Promise<[reservation]>}
- *  a promise that resolves to a new reservation object saved in the database.
- */
-
 export async function createRes(reservation, signal) {
-  // console.log('reservation to create', reservation);
   const url = `${API_BASE_URL}/reservations`;
   reservation.people = Number(reservation.people);
   const options = {
@@ -92,53 +73,30 @@ export async function createRes(reservation, signal) {
     body: JSON.stringify({ data: reservation }),
     signal,
   };
-  const result = await fetchJson(url, options, {});
-  return result;
+  return await fetchJson(url, options, {});
 }
 
 export async function readRes(reservation_id, signal) {
-  // console.log('reservation to create', reservation);
   const url = `${API_BASE_URL}/reservations/${reservation_id}`;
   const options = {
     method: "GET",
     headers,
     signal,
   };
-  // console.log('options', options);
-  const result = await fetchJson(url, options, {});
-  // console.log('createRes result', result);
-  return result;
+  return await fetchJson(url, options, {});
 }
 
-export async function readTable(table_id, signal) {
-  // console.log('reservation to create', reservation);
-  const url = `${API_BASE_URL}/tables/${table_id}`;
-  const options = {
-    method: "GET",
-    headers,
-    signal,
-  };
-  // console.log('options', options);
-  const result = await fetchJson(url, options, {});
-  // console.log('createRes result', result);
-  return result;
-}
 
-export async function seatRes(table_id, reservation_id, signal) {
-  // console.log('reservation to create', reservation);
-  const url = `${API_BASE_URL}/tables/${table_id}/seat`;
-  const options = {
-    method: "PUT",
-    headers,
-    body: JSON.stringify({ data: { reservation_id } }),
-    signal,
-  };
-  const result = await fetchJson(url, options, {});
-  return result;
+// TABLES API CALLS
+export async function listTables(params, signal) {
+  const url = new URL(`${API_BASE_URL}/tables`);
+  Object.entries(params).forEach(([key, value]) =>
+    url.searchParams.append(key, value.toString())
+  );
+  return await fetchJson(url, { headers, signal }, []);
 }
 
 export async function createTable(table, signal) {
-  // console.log('reservation to create', reservation);
   const url = `${API_BASE_URL}/tables`;
   table.capacity = Number(table.capacity);
   console.log({table});
@@ -148,8 +106,36 @@ export async function createTable(table, signal) {
     body: JSON.stringify({ data: table }),
     signal,
   };
-  // console.log('options', options);
-  const result = await fetchJson(url, options, {});
-  // console.log('createRes result', result);
-  return result;
+  return await fetchJson(url, options, {});
 }
+
+export async function readTable(table_id, signal) {
+  const url = `${API_BASE_URL}/tables/${table_id}`;
+  const options = {
+    method: "GET",
+    headers,
+    signal,
+  };
+  return await fetchJson(url, options, {});
+}
+
+//update table w/ reservation id
+export async function seatRes(table_id, reservation_id, signal) {
+  const url = `${API_BASE_URL}/tables/${table_id}/seat`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: { reservation_id } }),
+    signal,
+  };
+  return await fetchJson(url, options, {});
+}
+
+// delete reservation id from table
+export async function unseatRes(table_id) {
+  const url = `${API_BASE_URL}/tables/${table_id}/seat`;
+  return await fetchJson(url, { method: "DELETE", headers }, {});
+}
+
+
+

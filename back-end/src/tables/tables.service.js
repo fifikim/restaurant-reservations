@@ -39,10 +39,21 @@ function update(table_id, seatRequest) {
     .update(seatRequest, "*");
 }
 
-// delete table assignment to reservation_id by table_id
-// function destroy(id) {
-//   return 
+// // delete table assignment to reservation_id by table_id
+// function destroy(table_id) {
+//   const unseat = {"reservation_id": null};
+//   return knex("tables")
+//     .select("*")
+//     .where({ table_id })
+//     .update(unseat, "*");
 // }
+
+function destroy(reservation_id) {
+  return knex("reservations")
+    .select("*")
+    .where({ reservation_id })
+    .del();
+}
 
 module.exports = {
   create,
@@ -50,5 +61,5 @@ module.exports = {
   read,
   readReservation,
   update,
-  // destroy,
+  delete: destroy,
 };

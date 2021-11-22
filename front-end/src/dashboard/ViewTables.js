@@ -1,17 +1,34 @@
 import React, {useEffect, useState} from "react";
-import { listTables } from "../utils/api";
+import { Link } from "react-router-dom";
+import { listTables, unseatRes } from "../utils/api";
 
-function ReservationsView({date}) {
+function TablesView({date}) {
   const [tables, setTables] = useState([]);
 
-  useEffect(loadReservations, [date]);      
+  useEffect(loadTables, [date]);      
            
-  function loadReservations() {                  
+  function loadTables() {                  
     const ac = new AbortController();
     listTables({}, ac.signal)
       .then(setTables)
     return () => ac.abort();
   }
+
+  const finish = () => {
+    const finishConfirm = window.confirm(
+      "Is this table ready to seat new guests? This cannot be undone."
+    );
+    if (finishConfirm) {
+      console.log('finish Table');
+      unseatRes().then(loadTables);
+    }
+  };
+
+  const finishButton = (
+    <button type="button" onClick={finish} className="btn btn-secondary mr-2">
+      Finish
+    </button>
+  );
 
   const tablesList = tables.map((table) => (
     <tr key={table.table_id}>
@@ -19,6 +36,7 @@ function ReservationsView({date}) {
     <td>{table.table_name}</td>
     <td>{table.capacity}</td>
     <td>{table.reservation_id ? `Occupied by Reservation #${table.reservation_id}` : `Free`}</td>
+    <td>{table.reservation_id ? finishButton : null}</td>
   </tr>
   ));
 
@@ -42,4 +60,4 @@ function ReservationsView({date}) {
   );
 }
 
-export default ReservationsView;
+export default TablesView;
