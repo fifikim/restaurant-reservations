@@ -205,7 +205,7 @@ async function read(req, res) {
   res.json({ data: reservation });
 }
 
-// Get all reservations by date or phone#
+// get reservations list by date or mobile_number
 async function list(req, res) {
   const query = Object.keys(req.query)[0];
   let data;
