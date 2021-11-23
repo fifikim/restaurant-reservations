@@ -26,22 +26,21 @@ function TablesView({tables = [], onFinish}) {
   ));
 
   return (
-    <>
-      <table className="table">
+    <div>
+      <table className="table table-dark table-striped table-sm">
         <thead className="thead-dark">
           <tr>
             <th scope="col">Table ID</th>
             <th scope="col">Table Name</th>
             <th scope="col">Capacity</th>
             <th scope="col">Status</th>
-            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
           {tablesList}
         </tbody>
       </table>
-    </>
+    </div>
   );
 }
 

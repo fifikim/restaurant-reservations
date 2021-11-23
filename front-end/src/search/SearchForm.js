@@ -30,9 +30,9 @@ function SearchForm() {
   };
 
   // displays validation error message as alert components
-  const errorsList = errors.map((error) => (
+  const errorsList = errors.length ? errors.map((error) => (
     <ErrorAlert error={error} />
-  ));
+  )) : null;
 
   // render list of reservations or message if none found
   const searchResults = (
@@ -45,7 +45,7 @@ function SearchForm() {
     <>
       <div className="row mt-2">
         <ul>
-        {errors && errorsList}
+        {errorsList}
         </ul>
       </div>
 

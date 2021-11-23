@@ -93,6 +93,29 @@ export async function readRes(reservation_id, signal) {
   return await fetchJson(url, options, {});
 }
 
+export async function updateRes(reservation, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation.reservation_id}`;
+  reservation.people = Number(reservation.people);
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: reservation }),
+    signal,
+  };
+  return await fetchJson(url, options, {});
+}
+
+export async function cancelStatus(reservation_id, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: {status: "cancelled" } }),
+    signal,
+  };
+  return await fetchJson(url, options, {});
+}
+
 
 // TABLES API CALLS
 export async function listTables(signal) {
