@@ -1,17 +1,6 @@
-import React, {useEffect, useState} from "react";
-import { listTables, unseatRes } from "../utils/api";
+import React from "react";
 
-function TablesView({date}) {
-  const [tables, setTables] = useState([]);
-
-  useEffect(loadTables, [date]);      
-           
-  function loadTables() {                  
-    const ac = new AbortController();
-    listTables({}, ac.signal)
-      .then(setTables)
-    return () => ac.abort();
-  }
+function TablesView({tables = [], onFinish}) {
 
   const finish = ({target}) => {
     const tableId = target.dataset.tableIdFinish;
@@ -19,7 +8,7 @@ function TablesView({date}) {
       "Is this table ready to seat new guests? This cannot be undone."
     );
     if (finishConfirm) {
-      unseatRes(tableId).then(loadTables);
+      onFinish(tableId);
     }
   };
 

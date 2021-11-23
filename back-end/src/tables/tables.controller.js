@@ -146,6 +146,18 @@ async function tableIsOccupied(req, res, next) {
   return next();
 }
 
+// validates that a reservation to seat is not already seated
+function notSeated(req, res, next) {
+  const status = res.locals.reservation.status;
+  if (status === 'seated') {
+    return next({
+      status: 400,
+      message: 'Reservation is already seated',
+    });
+  }
+  return next();
+}
+
 // ROUTE HANDLERS
 
 // Create new table
@@ -163,17 +175,17 @@ function read(req, res) {
 
 // Update table by table ID to add reservation_id to tables/reservation_id
 async function seat(req, res) {
-  const seatRequest = res.locals.seatRequest;
+  const reservationId = res.locals.reservationId;
   const tableId = res.locals.table.table_id;
-  await service.seat(tableId, seatRequest);
+  await service.seat(tableId, reservationId);
   const result = await service.read(tableId);
   res.status(200).json({ data: result });
 }
 
 // Delete table assignment by table ID
 async function finish(req, res) {
-  const tableId = res.locals.tableId;
-  const result = await service.finish(tableId);
+  const table = res.locals.table;
+  const result = await service.finish(table);
   res.status(200).json({ data: result });
 }
  
@@ -186,7 +198,13 @@ async function list(req, res) {
 module.exports = {
   create: [hasRequiredInputs, hasValidName, hasMinCapacity, asyncErrorBoundary(create)],
   read: [asyncErrorBoundary(tableExists), asyncErrorBoundary(read)],
-  update: [asyncErrorBoundary(tableExists), hasReservationId, reservationExists, hasEnoughSeats, tableIsFree, asyncErrorBoundary(seat)],
+  update: [asyncErrorBoundary(tableExists), 
+    hasReservationId, 
+    reservationExists, 
+    hasEnoughSeats, 
+    tableIsFree, 
+    notSeated, 
+    asyncErrorBoundary(seat)],
   delete: [asyncErrorBoundary(tableExists), tableIsOccupied, asyncErrorBoundary(finish)],
   list: asyncErrorBoundary(list),
 };
