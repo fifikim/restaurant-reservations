@@ -191,9 +191,7 @@ function queryHasDate(req, res, next) {
 
 // ROUTE HANDLERS
 
-/**
- * Create new reservation
- */
+// Create new reservation
 async function create(req, res, next) {
   const newReservation = res.locals.reservation;
   const data = await service.create(newReservation);
@@ -207,9 +205,7 @@ async function read(req, res) {
   res.json({ data: reservation });
 }
 
-/**
- * Get all reservations
- */
+// Get all reservations
 async function list(req, res) {
   const date = req.query.date;
   console.log('date', date);
