@@ -40,7 +40,7 @@ function SeatForm({
       // update tableId with reservationId
       // update reservationId with 'seated' status
       await onSuccess(tableId, reservation_id);
-      history.push(`/dashboard`);
+      history.push('/dashboard');
     } catch(error) {
       // display error alerts if api call fails
       setErrors([...errors, error]);
@@ -56,7 +56,7 @@ function SeatForm({
 
   // displays validation error message as alert components
   const errorsList = errors.map((error) => (
-    <ErrorAlert error={error} />
+    <ErrorAlert error={error.message} />
   ));
 
   return (

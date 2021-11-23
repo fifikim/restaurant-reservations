@@ -12,7 +12,7 @@ function SeatReservation() {
   const { reservation_id } = useParams();
 
   function cancel() {
-    history.push(`/dashboard`);
+    history.goBack();
   }
 
   return (

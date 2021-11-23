@@ -153,7 +153,7 @@ async function reservationExists(req, res, next) {
 // validates updated reservation status 
 function hasValidStatus(req, res, next) {
   const status = req.body.data.status;
-  const statusOptions = ['booked', 'seated', 'finished'];
+  const statusOptions = ['booked', 'seated', 'finished', 'cancelled'];
   if (!status || !statusOptions.includes(status)) {
     return next({
       status: 400,
@@ -205,24 +205,38 @@ async function read(req, res) {
   res.json({ data: reservation });
 }
 
-// Get all reservations
+// get reservations list by date or mobile_number
 async function list(req, res) {
-  const date = req.query.date;
-  console.log('date', date);
-  const data = await service.list(req.query.date);
+  const query = Object.keys(req.query)[0];
+  let data;
+  if (query === 'date') {
+    // const date = new Date(req.query.date);
+    data = await service.list(req.query.date);
+  } else {
+    data = await service.search(req.query.mobile_number);
+  }
   res.json({ data });
 }
 
 // update reservation status
-async function update(req, res) {
+async function updateStatus(req, res) {
   const id = res.locals.reservationId;
   const newStatus = res.locals.status;
-  const status = await service.update(id, newStatus);
+  const status = await service.updateStatus(id, newStatus);
   res.status(200).json({ data: status });
 }
 
+// update reservation 
+async function update(req, res) {
+  const id = res.locals.reservationId;
+  const updatedRes = req.body.data;
+  const data = await service.updateRes(id, updatedRes);
+  res.status(200).json({ data });
+}
+
 module.exports = {
-  create: [hasRequiredInputs, 
+  create: [
+    hasRequiredInputs, 
     hasValidNumOfPpl, 
     hasValidDate, 
     hasValidTime, 
@@ -230,12 +244,28 @@ module.exports = {
     hasValidDay, 
     hasPermittedTime, 
     hasNewStatus,
-    asyncErrorBoundary(create)],
+    asyncErrorBoundary(create)
+  ],
   read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
-  update: [asyncErrorBoundary(reservationExists), 
+  updateStatus: [
+    asyncErrorBoundary(reservationExists), 
     hasValidStatus, 
     notFinished,
-    asyncErrorBoundary(update)],
+    asyncErrorBoundary(updateStatus)
+  ],
   // delete: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(destroy)],
-  list: [queryHasDate, asyncErrorBoundary(list)],
+  update: [
+    asyncErrorBoundary(reservationExists), 
+    hasRequiredInputs, 
+    hasValidNumOfPpl, 
+    hasValidDate, 
+    hasValidTime, 
+    hasFutureDate, 
+    hasValidDay, 
+    hasPermittedTime, 
+    hasValidStatus,
+    notFinished,
+    asyncErrorBoundary(update)
+  ],
+  list: [asyncErrorBoundary(list)],
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState} from "react";
 import ViewReservations from "./ViewReservations";
 import ViewTables from "./ViewTables";
-import { listReservations, listTables, finishRes } from "../utils/api";
+import { listReservations, listTables, finishRes, cancelStatus } from "../utils/api";
 import NavButtons from "./NavButtons";
 import ErrorAlert from "../layout/ErrorAlert";
 
@@ -24,7 +24,15 @@ function Dashboard({ date }) {
   }
 
   function onFinish(tableId) {
-    finishRes(tableId).then(loadDashboard);
+    finishRes(tableId)
+      .then(loadDashboard)
+      .catch(setReservationsError);
+  }
+
+  function onCancelRes(reservationId) {
+    cancelStatus(reservationId)
+      .then(loadDashboard)
+      .catch(setReservationsError);
   }
 
   return (
@@ -42,7 +50,7 @@ function Dashboard({ date }) {
         <ViewTables tables={tables} onFinish={onFinish} />
       </div>
       <div className="d-md-flex mb-3">
-        <ViewReservations reservations={reservations} />
+        <ViewReservations reservations={reservations} onCancelRes={onCancelRes} />
       </div>
     </main>
   );
