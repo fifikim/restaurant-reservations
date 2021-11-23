@@ -211,9 +211,13 @@ async function read(req, res) {
  * Get all reservations
  */
 async function list(req, res) {
-  const date = req.query.date;
-  console.log('date', date);
-  const data = await service.list(req.query.date);
+  const query = Object.keys(req.query)[0];
+  let data;
+  if (query === 'date') {
+    data = await service.list(req.query.date);
+  } else {
+    data = await service.search(req.query.mobile_number);
+  }
   res.json({ data });
 }
 
@@ -241,5 +245,5 @@ module.exports = {
     notFinished,
     asyncErrorBoundary(update)],
   // delete: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(destroy)],
-  list: [queryHasDate, asyncErrorBoundary(list)],
+  list: [asyncErrorBoundary(list)],
 };
