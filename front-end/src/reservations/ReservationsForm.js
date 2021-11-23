@@ -5,10 +5,10 @@ import { validateForm } from '../utils/reservations-validation';
 function ReservationsForm({
   onSuccess,                  // form onSubmit handler
   onCancel,                   // cancel button onClick handler
-  initialState,               // saved Reservation state (or blank)
+  initialFormState,               // saved Reservation state (or blank)
 }) {
 
-  const [formData, setFormData] = useState({...initialState});
+  const [formData, setFormData] = useState({...initialFormState});
   const [errors, setErrors] = useState([]);
 
   const handleInputChange = ({target}) => {  
