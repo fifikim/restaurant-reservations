@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function ReservationsView({reservations = []}) {
-  if (reservations.length) {
-    reservations = reservations.filter((res) => res.status !== 'finished');
-  }
+  // if (reservations.length) {
+  //   reservations = reservations.filter((res) => res.status !== 'finished');
+  // }
   const reservationsList = reservations.map((reservation) => (
     <tr key={reservation.reservation_id}>
     <th scope="row">{reservation.reservation_id}</th>

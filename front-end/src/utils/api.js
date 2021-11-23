@@ -52,13 +52,20 @@ async function fetchJson(url, options, onCancel) {
   }
 }
 
-
 // RESERVATIONS API CALLS
 export async function listReservations(params, signal) {
   const url = new URL(`${API_BASE_URL}/reservations`);
   Object.entries(params).forEach(([key, value]) =>
     url.searchParams.append(key, value.toString())
   );
+  return await fetchJson(url, { headers, signal }, [])
+    .then(formatReservationDate)
+    .then(formatReservationTime);
+}
+
+// search reservations by mobile number
+export async function searchRes(mobile_number, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations/?mobile_number=${mobile_number}`);
   return await fetchJson(url, { headers, signal }, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
@@ -133,6 +140,7 @@ export async function finishRes(table_id) {
   const url = `${API_BASE_URL}/tables/${table_id}/seat`;
   return await fetchJson(url, { method: "DELETE", headers }, {});
 }
+
 
 
 
