@@ -31,14 +31,18 @@ function SeatForm({
     setTableId(target.value);
   };
 
-  // validate seat request then display error or seat & redirect to dashboard
+  // seat request submit handler
   async function submitHandler(event) {    
     event.preventDefault();
 
     try {
+      // send seatRes api call 
+      // update tableId with reservationId
+      // update reservationId with 'seated' status
       await onSuccess(tableId, reservation_id);
       history.push(`/dashboard`);
     } catch(error) {
+      // display error alerts if api call fails
       setErrors([...errors, error]);
     };
   };

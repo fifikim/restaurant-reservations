@@ -52,13 +52,20 @@ async function fetchJson(url, options, onCancel) {
   }
 }
 
-
 // RESERVATIONS API CALLS
 export async function listReservations(params, signal) {
   const url = new URL(`${API_BASE_URL}/reservations`);
   Object.entries(params).forEach(([key, value]) =>
     url.searchParams.append(key, value.toString())
   );
+  return await fetchJson(url, { headers, signal }, [])
+    .then(formatReservationDate)
+    .then(formatReservationTime);
+}
+
+// search reservations by mobile number
+export async function searchRes(mobile_number, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations/?mobile_number=${mobile_number}`);
   return await fetchJson(url, { headers, signal }, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
@@ -88,11 +95,8 @@ export async function readRes(reservation_id, signal) {
 
 
 // TABLES API CALLS
-export async function listTables(params, signal) {
-  const url = new URL(`${API_BASE_URL}/tables`);
-  Object.entries(params).forEach(([key, value]) =>
-    url.searchParams.append(key, value.toString())
-  );
+export async function listTables(signal) {
+  const url = `${API_BASE_URL}/tables`;
   return await fetchJson(url, { headers, signal }, []);
 }
 
@@ -132,10 +136,11 @@ export async function seatRes(table_id, reservation_id, signal) {
 }
 
 // delete reservation id from table
-export async function unseatRes(table_id) {
+export async function finishRes(table_id) {
   const url = `${API_BASE_URL}/tables/${table_id}/seat`;
   return await fetchJson(url, { method: "DELETE", headers }, {});
 }
+
 
 
 

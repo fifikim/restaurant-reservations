@@ -5,7 +5,6 @@ const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
 
 //validates that reservation has required inputs
 function hasRequiredInputs(req, res, next) {
-  console.log('req', req);
   const reservation = req.body.data;
   if (!reservation) {
     return next({
@@ -124,6 +123,18 @@ function hasPermittedTime(req, res, next) {
   });
 }
 
+// validates that new reservation has new status
+function hasNewStatus(req, res, next) {
+  const status = res.locals.reservation.status;
+  if (!status || status === 'booked') {
+    return next();
+  }
+  return next({
+    status: 400,
+    message: `New reservation can not have ${status} status`,
+  });
+}
+
 // validates that a reservation to read/update/delete exists
 async function reservationExists(req, res, next) {
   const reservationId = req.params.reservation_id;
@@ -135,7 +146,47 @@ async function reservationExists(req, res, next) {
     });
   }
   res.locals.reservation = foundReservation;
+  res.locals.reservationId = reservationId;
   return next();
+}
+
+// validates updated reservation status 
+function hasValidStatus(req, res, next) {
+  const status = req.body.data.status;
+  const statusOptions = ['booked', 'seated', 'finished'];
+  if (!status || !statusOptions.includes(status)) {
+    return next({
+      status: 400,
+      message: "Status must be 'booked', 'seated', or 'finished': unknown status received",
+    });
+  }
+  res.locals.status = req.body.data;
+  next();
+}
+
+// validates status can be updated (reservation is not finished)
+function notFinished(req, res, next) {
+  const status = res.locals.reservation.status;
+  if (status === 'finished') {
+    return next({
+      status: 400,
+      message: 'A finished reservation cannot be updated',
+    });
+  }
+  return next();
+}
+
+// validates that date query is a date
+function queryHasDate(req, res, next) {
+  const date = req.query.date;
+  const dateFormat = /\d\d\d\d-\d\d-\d\d/;
+  if (!(dateFormat.test(date))) {
+    return next({
+      status: 400,
+      message: 'Path must have a valid reservation_date',
+    });
+  }
+  next();
 }
 
 // ROUTE HANDLERS
@@ -160,29 +211,39 @@ async function read(req, res) {
  * Get all reservations
  */
 async function list(req, res) {
-  const date = req.query.date;
-  const reservations = await service.list(date);
-  res.json({ data: reservations });
+  const query = Object.keys(req.query)[0];
+  let data;
+  if (query === 'date') {
+    data = await service.list(req.query.date);
+  } else {
+    data = await service.search(req.query.mobile_number);
+  }
+  res.json({ data });
+}
+
+// update reservation status
+async function update(req, res) {
+  const id = res.locals.reservationId;
+  const newStatus = res.locals.status;
+  const status = await service.update(id, newStatus);
+  res.status(200).json({ data: status });
 }
 
 module.exports = {
-  create: [hasRequiredInputs, hasValidNumOfPpl, hasValidDate, hasValidTime, hasFutureDate, hasValidDay, hasPermittedTime, asyncErrorBoundary(create)],
+  create: [hasRequiredInputs, 
+    hasValidNumOfPpl, 
+    hasValidDate, 
+    hasValidTime, 
+    hasFutureDate, 
+    hasValidDay, 
+    hasPermittedTime, 
+    hasNewStatus,
+    asyncErrorBoundary(create)],
   read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
-  // update: [asyncErrorBoundary(reservationExists), hasRequiredInputs, hasValidNumOfPpl, asyncErrorBoundary(update)],
+  update: [asyncErrorBoundary(reservationExists), 
+    hasValidStatus, 
+    notFinished,
+    asyncErrorBoundary(update)],
   // delete: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(destroy)],
-  list: asyncErrorBoundary(list),
+  list: [asyncErrorBoundary(list)],
 };
-
-
-
-// Update reservation by ID _INCOMPLETE
-// async function update(req, res) { 
-//   const reservationId = req.params.reservationId;
-//   const updatedRes = res.locals.reservation;
-//   if (!updatedRes.id) {
-//     updatedRes.id = reservationId;
-//   }
-//   res.json({ data: updatedRes });
-// }
-
-// Delete reservation by ID
