@@ -12,21 +12,21 @@ function EditReservation() {
     readRes(reservation_id).then(setReservation);
   }, [reservation_id]);
 
-  function editRes(reservation_id) {    // onSuccess handler: creates res via api
-    updateRes(reservation_id) // post call & redirects to res date dashboard
+  function editRes(reservation_id) {    // onSuccess handler: edits res via api
+    updateRes(reservation_id)         // put call & redirects to res date dashboard
       .then((updatedReservation) => 
         history.push(`/dashboard?date=${updatedReservation.reservation_date}`));
   }
 
-  function cancel() {             // cancel button redirects to dashboard page
+  function cancel() {             // cancel button redirects to previous page
     history.goBack();
   }
 
-  const loadForm = reservation.reservation_id ? (   // conditional render: renders DeckForm if state 
-    <ReservationsForm                 // contains value of deck.id, otherwise will 
-      onCancel={cancel}       // display "Loading" message
-      initialFormState={reservation}
-      onSuccess={editRes}    // edit-specific props passed to Deck Form 
+  const loadForm = reservation.reservation_id ? (   // conditional render: 
+    <ReservationsForm                         // renders loading message while  
+      onCancel={cancel}                       // reservation state obj loads so 
+      initialFormState={reservation}          // initial form state contains any 
+      onSuccess={editRes}                     // saved data (or is blank)
     />
   ) : (
     <p>Loading...</p>

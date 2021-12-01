@@ -32,7 +32,7 @@ function ReservationsView({reservations = [], onCancelRes}) {
         </button>
       </Link> : null}
       <Link to={`/reservations/${reservation.reservation_id}/edit`}>
-        <button type="button" className="btn btn-secondary mr-2">
+        <button type="button" className="btn btn-warning mr-2">
           Edit
         </button>
       </Link> 
@@ -48,12 +48,12 @@ function ReservationsView({reservations = [], onCancelRes}) {
       <table className="table table-hover table-bordered">
         <thead className="thead-light">
           <tr>
-            <th scope="col">Reservation ID</th>
+            <th scope="col">ID</th>
             <th scope="col">First Name</th>
             <th scope="col">Last Name</th>
             <th scope="col">Mobile Number</th>
-            <th scope="col">Reservation Time</th>
-            <th scope="col">People</th>
+            <th scope="col">Time</th>
+            <th scope="col">Party Size</th>
             <th scope="col">Status</th>
             <th scope="col">Actions</th>
           </tr>

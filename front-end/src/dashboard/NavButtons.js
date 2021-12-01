@@ -18,11 +18,20 @@ export default function NavButtons({date}) {
   }
 
   return (
-    <div className="btn-group" role="group" aria-label="Basic example">
-      <button type="button" className="btn btn-secondary" onClick={goPreviousDay}>Previous Day</button>
-      <button type="button" className="btn btn-secondary" onClick={goNextDay}>Next Day</button>
-      <button type="button" className="btn btn-primary" onClick={goToday}>Today</button>
-    </div>
+    <>
+      <row className="mt-6">
+        <div>
+          <button type="button" className="btn btn-success" onClick={goToday}>Jump to Today</button>
+        </div>
+        <h2 className="mt-3 mb-0">Reservations for:</h2>
+        <h1>{date} </h1>
+        <div className="btn-group" role="group" aria-label="Basic example">
+          <button type="button" className="btn btn-warning" onClick={goPreviousDay}>{`<<Previous Day`}</button>
+          <button type="button" className="btn btn-primary" onClick={goNextDay}>{`Next Day>>`}</button>
+        </div>
+      </row>
+
+    </>
   );
 }
 

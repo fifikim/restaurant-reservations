@@ -33,7 +33,7 @@ function hasRequiredInputs(req, res, next) {
 }
 
 //validates that party size > 0
-function hasValidNumOfPpl(req, res, next) {
+function hasValidNumOfPpl(req, _res, next) {
   const people = req.body.data.people;
   if (people < 1 || !people || typeof people !== 'number') {
     return next({
@@ -59,7 +59,7 @@ function hasValidDate(req, res, next) {
 }
 
 // validates that reservation date is in the future
-function hasFutureDate(req, res, next) {
+function hasFutureDate(_req, res, next) {
   const dateTime = res.locals.date + ' ' + res.locals.time;
   const reservationDate = new Date(dateTime);
   const todaysDate = new Date();
@@ -73,7 +73,7 @@ function hasFutureDate(req, res, next) {
 }
 
 // validates that reservation date is not on a Tuesday
-function hasValidDay(req, res, next) {
+function hasValidDay(_req, res, next) {
   const dateTime = res.locals.date + ' ' + res.locals.time;
   const reservationDate = new Date(dateTime);
   const day = reservationDate.getDay();
@@ -101,7 +101,7 @@ function hasValidTime(req, res, next) {
 }
 
 // validates that reservation time is within permitted timeframe
-function hasPermittedTime(req, res, next) {
+function hasPermittedTime(_req, res, next) {
   const hour = res.locals.time.split(':')[0];
   const min = res.locals.time.split(':')[1];
 
@@ -123,8 +123,8 @@ function hasPermittedTime(req, res, next) {
   });
 }
 
-// validates that new reservation has new status
-function hasNewStatus(req, res, next) {
+// validates that new reservation has default status
+function hasNewStatus(_req, res, next) {
   const status = res.locals.reservation.status;
   if (!status || status === 'booked') {
     return next();
@@ -165,7 +165,7 @@ function hasValidStatus(req, res, next) {
 }
 
 // validates status can be updated (reservation is not finished)
-function notFinished(req, res, next) {
+function notFinished(_req, res, next) {
   const status = res.locals.reservation.status;
   if (status === 'finished') {
     return next({
@@ -176,30 +176,17 @@ function notFinished(req, res, next) {
   return next();
 }
 
-// validates that date query is a date
-function queryHasDate(req, res, next) {
-  const date = req.query.date;
-  const dateFormat = /\d\d\d\d-\d\d-\d\d/;
-  if (!(dateFormat.test(date))) {
-    return next({
-      status: 400,
-      message: 'Path must have a valid reservation_date',
-    });
-  }
-  next();
-}
-
 // ROUTE HANDLERS
 
 // Create new reservation
-async function create(req, res, next) {
+async function create(_req, res) {
   const newReservation = res.locals.reservation;
   const data = await service.create(newReservation);
   res.status(201).json({ data });
 }
 
 // Get reservation by ID
-async function read(req, res) {
+async function read(_req, res) {
   const id = res.locals.reservation.reservation_id;
   const reservation = await service.read(id);
   res.json({ data: reservation });
@@ -219,7 +206,7 @@ async function list(req, res) {
 }
 
 // update reservation status
-async function updateStatus(req, res) {
+async function updateStatus(_req, res) {
   const id = res.locals.reservationId;
   const newStatus = res.locals.status;
   const status = await service.updateStatus(id, newStatus);
@@ -253,7 +240,6 @@ module.exports = {
     notFinished,
     asyncErrorBoundary(updateStatus)
   ],
-  // delete: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(destroy)],
   update: [
     asyncErrorBoundary(reservationExists), 
     hasRequiredInputs, 

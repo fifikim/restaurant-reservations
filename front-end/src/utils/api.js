@@ -53,6 +53,8 @@ async function fetchJson(url, options, onCancel) {
 }
 
 // RESERVATIONS API CALLS
+
+// return a list of all reservations by date
 export async function listReservations(params, signal) {
   const url = new URL(`${API_BASE_URL}/reservations`);
   Object.entries(params).forEach(([key, value]) =>
@@ -71,6 +73,7 @@ export async function searchRes(mobile_number, signal) {
     .then(formatReservationTime);
 }
 
+// create a new reservation
 export async function createRes(reservation, signal) {
   const url = `${API_BASE_URL}/reservations`;
   reservation.people = Number(reservation.people);
@@ -83,6 +86,7 @@ export async function createRes(reservation, signal) {
   return await fetchJson(url, options, {});
 }
 
+// return a single reservation by ID
 export async function readRes(reservation_id, signal) {
   const url = `${API_BASE_URL}/reservations/${reservation_id}`;
   const options = {
@@ -93,6 +97,7 @@ export async function readRes(reservation_id, signal) {
   return await fetchJson(url, options, {});
 }
 
+// update a single reservation
 export async function updateRes(reservation, signal) {
   const url = `${API_BASE_URL}/reservations/${reservation.reservation_id}`;
   reservation.people = Number(reservation.people);
@@ -105,6 +110,7 @@ export async function updateRes(reservation, signal) {
   return await fetchJson(url, options, {});
 }
 
+// update a single reservation to "cancelled" status
 export async function cancelStatus(reservation_id, signal) {
   const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
   const options = {
@@ -118,11 +124,14 @@ export async function cancelStatus(reservation_id, signal) {
 
 
 // TABLES API CALLS
+
+// return a list of all tables with status not "finished" or "cancelled"
 export async function listTables(signal) {
   const url = `${API_BASE_URL}/tables`;
   return await fetchJson(url, { headers, signal }, []);
 }
 
+// create a new table
 export async function createTable(table, signal) {
   const url = `${API_BASE_URL}/tables`;
   table.capacity = Number(table.capacity);
@@ -136,6 +145,7 @@ export async function createTable(table, signal) {
   return await fetchJson(url, options, {});
 }
 
+// return a single table by ID
 export async function readTable(table_id, signal) {
   const url = `${API_BASE_URL}/tables/${table_id}`;
   const options = {
@@ -146,7 +156,7 @@ export async function readTable(table_id, signal) {
   return await fetchJson(url, options, {});
 }
 
-//update table w/ reservation id
+// update table to include ID of seated reservation 
 export async function seatRes(table_id, reservation_id, signal) {
   const url = `${API_BASE_URL}/tables/${table_id}/seat`;
   const options = {
@@ -158,7 +168,7 @@ export async function seatRes(table_id, reservation_id, signal) {
   return await fetchJson(url, options, {});
 }
 
-// delete reservation id from table
+// update table to delete ID of finished reservation 
 export async function finishRes(table_id) {
   const url = `${API_BASE_URL}/tables/${table_id}/seat`;
   return await fetchJson(url, { method: "DELETE", headers }, {});
