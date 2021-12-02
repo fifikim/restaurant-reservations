@@ -1,11 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function ReservationsView({reservations = [], onCancelRes}) {
-
-  function cancelRes({target}) {
+function ReservationsView({ reservations = [], onCancelRes }) {
+  function cancelRes({ target }) {
     const reservationId = target.dataset.reservationIdCancel;
-    console.log(reservationId)
     const cancelConfirm = window.confirm(
       "Do you want to cancel this reservation? This cannot be undone."
     );
@@ -16,31 +14,40 @@ function ReservationsView({reservations = [], onCancelRes}) {
 
   const reservationsList = reservations.map((reservation) => (
     <tr key={reservation.reservation_id}>
-    <th scope="row">{reservation.reservation_id}</th>
-    <td>{reservation.first_name}</td>
-    <td>{reservation.last_name}</td>
-    <td>{reservation.mobile_number}</td>
-    <td>{reservation.reservation_time}</td>
-    <td>{reservation.people}</td>
-    <td data-reservation-id-status={reservation.reservation_id}>
-      {reservation.status}
-    </td>
-    <td>{reservation.status === 'booked' ?
-      <Link to={`/reservations/${reservation.reservation_id}/seat`}>
-        <button type="button" className="btn btn-primary mr-2">
-          Seat
-        </button>
-      </Link> : null}
-      <Link to={`/reservations/${reservation.reservation_id}/edit`}>
-        <button type="button" className="btn btn-warning mr-2">
-          Edit
-        </button>
-      </Link> 
-        <button type="button" className="btn btn-danger mr-2" onClick={cancelRes} data-reservation-id-cancel={reservation.reservation_id}>
+      <th scope="row">{reservation.reservation_id}</th>
+      <td>{reservation.first_name}</td>
+      <td>{reservation.last_name}</td>
+      <td>{reservation.mobile_number}</td>
+      <td>{reservation.reservation_time}</td>
+      <td>{reservation.people}</td>
+      <td data-reservation-id-status={reservation.reservation_id}>
+        {reservation.status}
+      </td>
+      <td>
+        {reservation.status === "booked" ? (
+          <Link to={`/reservations/${reservation.reservation_id}/seat`}>
+            <button type="button" className="btn btn-primary mr-2">
+              Seat
+            </button>
+          </Link>
+        ) : null}
+        {reservation.status === "booked" ? (
+          <Link to={`/reservations/${reservation.reservation_id}/edit`}>
+            <button type="button" className="btn btn-warning mr-2">
+              Edit
+            </button>
+          </Link>
+        ) : null}
+        <button
+          type="button"
+          className="btn btn-danger mr-2"
+          onClick={cancelRes}
+          data-reservation-id-cancel={reservation.reservation_id}
+        >
           Cancel
         </button>
-    </td>
-  </tr>
+      </td>
+    </tr>
   ));
 
   return (
@@ -58,9 +65,7 @@ function ReservationsView({reservations = [], onCancelRes}) {
             <th scope="col">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          {reservationsList}
-        </tbody>
+        <tbody>{reservationsList}</tbody>
       </table>
     </>
   );
