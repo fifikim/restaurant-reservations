@@ -44,8 +44,7 @@ Search for a reservation by phone number (partial or complete) to quickly access
 
 ### 08 - Change an existing reservation
 
-Modify a reservation if a customer calls to change or cancel their reservation. <br/>  
-Reservations are always accurate and current.
+Modify a reservation if a customer calls to change or cancel their reservation. <br/>Reservations are always accurate and current.
 
 ## Installation
 
