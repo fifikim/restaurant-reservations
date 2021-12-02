@@ -25,8 +25,8 @@ Users are prevented from accidentally creating a reservation for a time that can
 
 ### 04 - Seat reservation
 
-When a customer with an existing reservation arrives at the restaurant, seat (assign) their reservation to a specific table.<br/>
-Then load an up-to-date list of tables showing which are occupied and free.
+When a customer with a reservation arrives at the restaurant, assign their reservation to a specific table.<br/> 
+The system then loads an up-to-date list of tables showing which are occupied and free.
 
 ### 05 - Finish an occupied table
 
@@ -34,8 +34,9 @@ Free up an occupied table when the guests leave so that new guests may be seated
 
 ### 06 - Reservation Status
 
-Reservations have a status of either booked, seated, finished, or cancelled.<br/>
-This allows a user to quickly view which reservation parties are seated or due to arrive. Finished and cancelled reservations are hidden from the dashboard.
+Assign reservations a status of either booked, seated, finished, or cancelled.<br/>
+Users can quickly view which reservation parties are seated or due to arrive.<br/> 
+Finished and cancelled reservations are hidden from the dashboard.
 
 ### 07 - Search for a reservation by phone number
 
@@ -43,7 +44,8 @@ Search for a reservation by phone number (partial or complete) to quickly access
 
 ### 08 - Change an existing reservation
 
-Modify a reservation if a customer calls to change or cancel their reservation so that reservations are always accurate and current.
+Modify a reservation if a customer calls to change or cancel their reservation. <br/>  
+Reservations are always accurate and current.
 
 ## Installation
 
