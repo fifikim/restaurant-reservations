@@ -10,44 +10,40 @@
 
 ### 01 - Create and list reservations
 
-Create a new reservation when a customer calls<br/>
-so that you know how many customers will arrive at the restaurant on a given day.
+Create a new reservation when a customer calls.<br/>
+View an accurate, up-to-date list of how many customers will arrive at the restaurant on a given day.
 
 ### 02 - Create reservation on a future, working date
 
-Allow reservations to be created on a day when you are open<br/>
-so that users do not accidentally create a reservation for days when you are closed.<br/>
+Validations ensure that reservations are only created on days the restaurant is open. <br/>
+Users are prevented from accidentally taking reservations on days when the business is closed.<br/>
 
 ### 03 - Create reservation within eligible timeframe
 
-Allow reservations to be created during business hours, up to 60 minutes before closing<br/>
-so that users do not accidentally create a reservation for a time you cannot accommodate.
+The system checks that reservations are created during business hours, up to 60 minutes before closing.<br/>
+Users are prevented from accidentally creating a reservation for a time that cannot be accommodated.
 
 ### 04 - Seat reservation
 
-When a customer with an existing reservation arrives at the restaurant<br/>
-seat (assign) their reservation to a specific table<br/>
-so that you know which tables are occupied and free.
+When a customer with an existing reservation arrives at the restaurant, seat (assign) their reservation to a specific table.<br/>
+Then load an up-to-date list of tables showing which are occupied and free.
 
 ### 05 - Finish an occupied table
 
-Free up an occupied table when the guests leave<br/>
-so that you can seat new guests at that table.<br/>
+Free up an occupied table when the guests leave so that new guests may be seated at that table.<br/>
 
 ### 06 - Reservation Status
 
-I want a reservation to have a status of either booked, seated, or finished<br/>
-so that I can see which reservation parties are seated, and finished reservations are hidden from the dashboard.
+Reservations have a status of either booked, seated, finished, or cancelled.<br/>
+This allows a user to quickly view which reservation parties are seated or due to arrive. Finished and cancelled reservations are hidden from the dashboard.
 
 ### 07 - Search for a reservation by phone number
 
-Search for a reservation by phone number (partial or complete)<br/>
-to quickly access a customer's reservation when they call about their reservation.<br/>
+Search for a reservation by phone number (partial or complete) to quickly access a customer's details when they call.
 
 ### 08 - Change an existing reservation
 
-Modify a reservation if a customer calls to change or cancel their reservation<br/>
-so that reservations are accurate and current.
+Modify a reservation if a customer calls to change or cancel their reservation so that reservations are always accurate and current.
 
 ## Installation
 
