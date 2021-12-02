@@ -1,5 +1,5 @@
-const service = require('./reservations.service');
-const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
+const service = require("./reservations.service");
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 // ROUTER MIDDLEWARE
 
@@ -13,12 +13,12 @@ function hasRequiredInputs(req, res, next) {
     });
   }
   const REQUIRED_PROPERTIES = [
-    'first_name',
-    'last_name',
-    'mobile_number',
-    'reservation_date',
-    'reservation_time',
-    'people',
+    "first_name",
+    "last_name",
+    "mobile_number",
+    "reservation_date",
+    "reservation_time",
+    "people",
   ];
   REQUIRED_PROPERTIES.forEach((property) => {
     if (!reservation[property]) {
@@ -27,7 +27,7 @@ function hasRequiredInputs(req, res, next) {
         message: `Reservation must include a ${property}`,
       });
     }
-  })
+  });
   res.locals.reservation = reservation;
   next();
 }
@@ -35,10 +35,10 @@ function hasRequiredInputs(req, res, next) {
 //validates that party size > 0
 function hasValidNumOfPpl(req, _res, next) {
   const people = req.body.data.people;
-  if (people < 1 || !people || typeof people !== 'number') {
+  if (people < 1 || !people || typeof people !== "number") {
     return next({
       status: 400,
-      message: 'Number of people in party must be at least 1',
+      message: "Number of people in party must be at least 1",
     });
   }
   next();
@@ -48,10 +48,10 @@ function hasValidNumOfPpl(req, _res, next) {
 function hasValidDate(req, res, next) {
   const date = req.body.data.reservation_date;
   const dateFormat = /\d\d\d\d-\d\d-\d\d/;
-  if (!(dateFormat.test(date))) {
+  if (!dateFormat.test(date)) {
     return next({
       status: 400,
-      message: 'Reservation must have a valid reservation_date',
+      message: "Reservation must have a valid reservation_date",
     });
   }
   res.locals.date = date;
@@ -60,13 +60,13 @@ function hasValidDate(req, res, next) {
 
 // validates that reservation date is in the future
 function hasFutureDate(_req, res, next) {
-  const dateTime = res.locals.date + ' ' + res.locals.time;
+  const dateTime = res.locals.date + " " + res.locals.time;
   const reservationDate = new Date(dateTime);
   const todaysDate = new Date();
   if (todaysDate >= reservationDate) {
     return next({
       status: 400,
-      message: 'Reservation must occur in the future',
+      message: "Reservation must occur in the future",
     });
   }
   next();
@@ -74,13 +74,14 @@ function hasFutureDate(_req, res, next) {
 
 // validates that reservation date is not on a Tuesday
 function hasValidDay(_req, res, next) {
-  const dateTime = res.locals.date + ' ' + res.locals.time;
+  const dateTime = res.locals.date + " " + res.locals.time;
   const reservationDate = new Date(dateTime);
   const day = reservationDate.getDay();
   if (day === 2) {
     return next({
       status: 400,
-      message: 'Restaurant is closed on Tuesdays. Please select a different date.',
+      message:
+        "Restaurant is closed on Tuesdays. Please select a different date.",
     });
   }
   next();
@@ -90,10 +91,10 @@ function hasValidDay(_req, res, next) {
 function hasValidTime(req, res, next) {
   const time = req.body.data.reservation_time;
   const timeFormat = /\d\d:\d\d/;
-  if (!(timeFormat.test(time))) {
+  if (!timeFormat.test(time)) {
     return next({
       status: 400,
-      message: 'Reservation must have a valid reservation_time',
+      message: "Reservation must have a valid reservation_time",
     });
   }
   res.locals.time = time;
@@ -102,8 +103,8 @@ function hasValidTime(req, res, next) {
 
 // validates that reservation time is within permitted timeframe
 function hasPermittedTime(_req, res, next) {
-  const hour = res.locals.time.split(':')[0];
-  const min = res.locals.time.split(':')[1];
+  const hour = res.locals.time.split(":")[0];
+  const min = res.locals.time.split(":")[1];
 
   const reservationTime = new Date();
   reservationTime.setHours(hour, min);
@@ -119,14 +120,14 @@ function hasPermittedTime(_req, res, next) {
   }
   return next({
     status: 400,
-    message: 'Reservation must occur between 10:30AM and 9:30PM',
+    message: "Reservation must occur between 10:30AM and 9:30PM",
   });
 }
 
 // validates that new reservation has default status
-function hasNewStatus(_req, res, next) {
+function hasBookedStatus(_req, res, next) {
   const status = res.locals.reservation.status;
-  if (!status || status === 'booked') {
+  if (!status || status === "booked") {
     return next();
   }
   return next({
@@ -150,14 +151,15 @@ async function reservationExists(req, res, next) {
   return next();
 }
 
-// validates updated reservation status 
+// validates updated reservation status is permitted
 function hasValidStatus(req, res, next) {
   const status = req.body.data.status;
-  const statusOptions = ['booked', 'seated', 'finished', 'cancelled'];
+  const statusOptions = ["booked", "seated", "finished", "cancelled"];
   if (!status || !statusOptions.includes(status)) {
     return next({
       status: 400,
-      message: "Status must be 'booked', 'seated', or 'finished': unknown status received",
+      message:
+        "Status must be 'booked', 'seated', or 'finished': unknown status received",
     });
   }
   res.locals.status = req.body.data;
@@ -167,10 +169,10 @@ function hasValidStatus(req, res, next) {
 // validates status can be updated (reservation is not finished)
 function notFinished(_req, res, next) {
   const status = res.locals.reservation.status;
-  if (status === 'finished') {
+  if (status === "finished") {
     return next({
       status: 400,
-      message: 'A finished reservation cannot be updated',
+      message: "A finished reservation cannot be updated",
     });
   }
   return next();
@@ -196,7 +198,7 @@ async function read(_req, res) {
 async function list(req, res) {
   const query = Object.keys(req.query)[0];
   let data;
-  if (query === 'date') {
+  if (query === "date") {
     // const date = new Date(req.query.date);
     data = await service.list(req.query.date);
   } else {
@@ -213,7 +215,7 @@ async function updateStatus(_req, res) {
   res.status(200).json({ data: status });
 }
 
-// update reservation 
+// update reservation
 async function update(req, res) {
   const id = res.locals.reservationId;
   const updatedRes = req.body.data;
@@ -223,35 +225,34 @@ async function update(req, res) {
 
 module.exports = {
   create: [
-    hasRequiredInputs, 
-    hasValidNumOfPpl, 
-    hasValidDate, 
-    hasValidTime, 
-    hasFutureDate, 
-    hasValidDay, 
-    hasPermittedTime, 
-    hasNewStatus,
-    asyncErrorBoundary(create)
+    hasRequiredInputs,
+    hasValidNumOfPpl,
+    hasValidDate,
+    hasValidTime,
+    hasFutureDate,
+    hasValidDay,
+    hasPermittedTime,
+    hasBookedStatus,
+    asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
   updateStatus: [
-    asyncErrorBoundary(reservationExists), 
-    hasValidStatus, 
-    notFinished,
-    asyncErrorBoundary(updateStatus)
-  ],
-  update: [
-    asyncErrorBoundary(reservationExists), 
-    hasRequiredInputs, 
-    hasValidNumOfPpl, 
-    hasValidDate, 
-    hasValidTime, 
-    hasFutureDate, 
-    hasValidDay, 
-    hasPermittedTime, 
+    asyncErrorBoundary(reservationExists),
     hasValidStatus,
     notFinished,
-    asyncErrorBoundary(update)
+    asyncErrorBoundary(updateStatus),
+  ],
+  update: [
+    asyncErrorBoundary(reservationExists),
+    hasRequiredInputs,
+    hasValidNumOfPpl,
+    hasValidDate,
+    hasValidTime,
+    hasFutureDate,
+    hasValidDay,
+    hasPermittedTime,
+    hasBookedStatus,
+    asyncErrorBoundary(update),
   ],
   list: [asyncErrorBoundary(list)],
 };

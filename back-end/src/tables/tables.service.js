@@ -1,6 +1,6 @@
 const knex = require("../db/connection");
 
-// create a new table
+// insert new table
 function create(table) {
   return knex("tables")
     .insert(table)
@@ -8,31 +8,23 @@ function create(table) {
     .then((createdTables) => createdTables[0]);
 }
 
-// list all tables sorted by table name
+// query list of all tables, sorted by table name
 function list() {
-  return knex("tables")
-    .select("*")
-    .orderBy("table_name");
+  return knex("tables").select("*").orderBy("table_name");
 }
 
-// read table by table id
+// query single table by ID
 function read(id) {
-  return knex("tables")
-    .select("*")
-    .where({ "table_id": id })
-    .first();
+  return knex("tables").select("*").where({ table_id: id }).first();
 }
 
-// read reservation by reservation id
+// query single reservation by reservation ID
 function readReservation(id) {
-  return knex("reservations")
-    .select("*")
-    .where({ "reservation_id": id })
-    .first();
+  return knex("reservations").select("*").where({ reservation_id: id }).first();
 }
 
-// updates reservation w/ seated status 
-// & updates table w/ reservation id
+// updates specified reservation w/ 'seated' status
+// & updates specified table w/ reservation ID
 function seat(table_id, reservation_id) {
   return knex.transaction(async (transaction) => {
     await knex("reservations")
@@ -48,8 +40,8 @@ function seat(table_id, reservation_id) {
   });
 }
 
-// updates reservation w/ finished status 
-// & updates table to remove reservation id
+// updates reservation w/ 'finished' status
+// & updates table to remove reservation ID
 function finish(table) {
   return knex.transaction(async (transaction) => {
     await knex("reservations")
