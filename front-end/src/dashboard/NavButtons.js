@@ -2,6 +2,11 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { today, previous, next } from "../utils/date-time";
 
+/**
+ * Renders the navigation buttons & heading for Dashboard page.
+ * 
+ * @returns {JSX.Element}
+ */
 export default function NavButtons({ date }) {
   const history = useHistory();
 

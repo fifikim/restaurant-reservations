@@ -1,25 +1,27 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { createRes } from "../utils/api";
-import ReservationsForm from "./ReservationsForm";
+import ReservationForm from "./ReservationForm";
 
 /**
- *
- * @returns renders page view for New Reservation route
+ * renders page view for New Reservation route
+ * 
+ * @returns {JSX.Element}
  */
 function NewReservation() {
   const history = useHistory();
 
+  // reservation form submit button handler
+  // creates reservation via api & redirects to reservation date Dashboard
   function newRes(reservation) {
-    // onSuccess handler: creates res via api
-    createRes(reservation) // post call & redirects to res date dashboard
+    createRes(reservation) 
       .then((newReservation) =>
         history.push(`/dashboard?date=${newReservation.reservation_date}`)
       );
   }
 
+  // cancel button handler: redirects to Dashboard page for current date
   function cancel() {
-    // cancel button redirects to dashboard page
     history.push(`/dashboard`);
   }
 
@@ -27,7 +29,7 @@ function NewReservation() {
     <>
       <h2>Create Reservation</h2>
 
-      <ReservationsForm onSuccess={newRes} onCancel={cancel} />
+      <ReservationForm onSuccess={newRes} onCancel={cancel} />
     </>
   );
 }

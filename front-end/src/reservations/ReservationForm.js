@@ -2,24 +2,35 @@ import React, { useState } from "react";
 import ErrorAlert from "../layout/ErrorAlert";
 import { validateForm } from "../utils/reservations-validation";
 
-function ReservationsForm({
-  onSuccess, // form onSubmit handler
-  onCancel, // cancel button onClick handler
-  initialFormState, // saved Reservation state (or blank)
+/**
+ * renders Reservation Form component
+ * creates new reservation or edits existing reservation
+ * 
+ * @param onSuccess {function} form onSubmit handler
+ * @param onCancel {function} form Cancel handler
+ * @param initialState {object} saved Reservation state (or blank)
+ * 
+ * @returns {JSX.Element}
+ */
+function ReservationForm({
+  onSuccess, 
+  onCancel, 
+  initialFormState, 
 }) {
   const [formData, setFormData] = useState({ ...initialFormState });
   const [errors, setErrors] = useState([]);
 
+  // form input change handler: saves input to formData state
   const handleInputChange = ({ target }) => {
     setFormData({
-      // saves form input in formData
-      ...formData, // state object as value of key
-      [target.name]: target.value, // matching input field name
+      ...formData, 
+      [target.name]: target.value, 
     });
   };
 
+  // form submit handler
   async function submitHandler(event) {
-    event.preventDefault(); // calls onSuccess function to Create reservation
+    event.preventDefault(); 
     console.log("submit");
 
     // check for validation errors
@@ -29,14 +40,14 @@ function ReservationsForm({
       setErrors(formErrors);
     }
 
-    // if no errors, submit api post call & navigate to dashboard
+    // if no errors, submit api post call & redirect to Dashboard
     else {
       console.log("onsuccess");
       await onSuccess({ ...formData });
     }
   }
 
-  // displays validation error message as alert components
+  // displays validation error messages (if any) as alert components
   const errorsList = errors.map((error) => <ErrorAlert error={error} />);
 
   return (
@@ -142,4 +153,4 @@ function ReservationsForm({
   );
 }
 
-export default ReservationsForm;
+export default ReservationForm;

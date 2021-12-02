@@ -1,6 +1,13 @@
 import React from "react";
 
+/**
+ * Renders a table containing all restaurant tables
+ * 
+ * @returns {JSX.Element}
+ */
 function TablesView({ tables = [], onFinish }) {
+
+  // finish button click handler: displays confirmation alert window
   const finish = ({ target }) => {
     const tableId = target.dataset.tableIdFinish;
     const finishConfirm = window.confirm(
@@ -11,6 +18,9 @@ function TablesView({ tables = [], onFinish }) {
     }
   };
 
+  // maps tables passed from parent component to table rows
+  // displays occupancy status of 'Free' or 'Occupied'
+  // displays reservation ID & 'Finish' button if table is occupied
   const tablesList = tables.map((table) => (
     <tr key={table.table_id}>
       <th scope="row">{table.table_id}</th>

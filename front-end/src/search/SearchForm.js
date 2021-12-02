@@ -3,23 +3,30 @@ import ErrorAlert from "../layout/ErrorAlert";
 import { searchRes } from "../utils/api";
 import ViewReservations from "../dashboard/ViewReservations";
 
+/**
+ * renders Search Form component
+ * displays list of reservations matching inputted mobile number
+ * 
+ * @returns {JSX.Element}
+ */
 function SearchForm() {
   const [mobileNum, setMobileNum] = useState("");
   const [errors, setErrors] = useState([]);
   const [results, setResults] = useState([]);
   const [display, setDisplay] = useState(false);
 
-  // set Table state to selected table
+  // search box change handler: saves mobile number to state
   const handleChange = ({ target }) => {
     setMobileNum(target.value);
   };
 
-  // seat request submit handler
+  // search form submit handler
   async function submitHandler(event) {
     event.preventDefault();
 
     try {
-      // send searchRes api call
+      // fetch and save results (if any)
+      // display results (or message if none)
       const data = await searchRes(mobileNum);
       setResults(data);
       setDisplay(true);
@@ -29,12 +36,12 @@ function SearchForm() {
     }
   }
 
-  // displays validation error message as alert components
+  // displays validation error message (if any) as alert components
   const errorsList = errors.length
     ? errors.map((error) => <ErrorAlert error={error} />)
     : null;
 
-  // render list of reservations or message if none found
+  // render list of matching reservations or message if none found
   const searchResults = (
     <div>
       {results.length ? (

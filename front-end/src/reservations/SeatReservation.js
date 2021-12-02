@@ -4,13 +4,15 @@ import { seatRes } from "../utils/api";
 import SeatForm from "./SeatForm";
 
 /**
- *
- * @returns renders page view for New Reservation route
+ * renders page view for Seat Reservation route
+ * 
+ * @returns {JSX.Element}
  */
 function SeatReservation() {
   const history = useHistory();
   const { reservation_id } = useParams();
 
+  // cancel button handler: redirect to previous page
   function cancel() {
     history.goBack();
   }

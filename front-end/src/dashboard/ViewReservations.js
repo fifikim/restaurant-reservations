@@ -1,7 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+/**
+ * Renders a table containing reservations for selected date,
+ * excluding reservations with cancelled/finished status
+ * 
+ * @returns {JSX.Element}
+ */
 function ReservationsView({ reservations = [], onCancelRes }) {
+
+  // cancel button click handler: displays confirmation alert window
   function cancelRes({ target }) {
     const reservationId = target.dataset.reservationIdCancel;
     const cancelConfirm = window.confirm(
@@ -12,6 +20,9 @@ function ReservationsView({ reservations = [], onCancelRes }) {
     }
   }
 
+  // maps reservations passed from parent component to table rows
+  // displays 'Seat', 'Edit', 'Cancel' buttons 
+  // hides button selections not allowed under reservation current status
   const reservationsList = reservations.map((reservation) => (
     <tr key={reservation.reservation_id}>
       <th scope="row">{reservation.reservation_id}</th>

@@ -4,12 +4,14 @@ import { seatRes } from "../utils/api";
 import SearchForm from "./SearchForm";
 
 /**
- *
- * @returns renders page view for New Reservation route
+ * renders page view for Search Page route
+ * 
+ * @returns {JSX.Element}
  */
 function SearchPage() {
   const history = useHistory();
 
+  // cancel button handler: redirect to Dashboard for current date
   function cancel() {
     history.push(`/dashboard`);
   }

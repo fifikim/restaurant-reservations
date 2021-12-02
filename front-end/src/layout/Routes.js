@@ -7,7 +7,7 @@ import NewReservation from "../reservations/NewReservation";
 import SeatReservation from "../reservations/SeatReservation";
 import EditReservation from "../reservations/EditReservation";
 import SearchPage from "../search/SearchPage";
-import TablesNew from "../tables/TablesNew";
+import NewTable from "../tables/NewTable";
 import NotFound from "./NotFound";
 
 /**
@@ -40,7 +40,7 @@ function Routes() {
         <Dashboard date={date || today()} />
       </Route>
       <Route path="/tables/new">
-        <TablesNew />
+        <NewTable />
       </Route>
       <Route path="/search">
         <SearchPage />

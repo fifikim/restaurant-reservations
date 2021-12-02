@@ -3,6 +3,12 @@ import { useHistory } from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
 import { listTables } from "../utils/api";
 
+/**
+ * renders Seat Form component
+ * seats single reservation at selected table
+ * 
+ * @returns {JSX.Element}
+ */
 function SeatForm({ reservation_id, onSuccess, onCancel }) {
   const [freeTables, setFreeTables] = useState([]);
   const [errors, setErrors] = useState([]);

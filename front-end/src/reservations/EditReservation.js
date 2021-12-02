@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { readRes, updateRes } from "../utils/api";
-import ReservationsForm from "./ReservationsForm";
+import ReservationForm from "./ReservationForm";
 
+/**
+ * renders page view for Edit Reservation route
+ * 
+ * @returns {JSX.Element}
+ */
 function EditReservation() {
   const history = useHistory();
   const { reservation_id } = useParams();
@@ -12,24 +17,28 @@ function EditReservation() {
     readRes(reservation_id).then(setReservation);
   }, [reservation_id]);
 
+  // reservation form submit button handler
+  // updates reservation via api & redirects to reservation date Dashboard
   function editRes(reservation) {
-    // onSuccess handler: edits res via api
-    updateRes(reservation) // put call & redirects to res date dashboard
+    updateRes(reservation) 
       .then((updatedReservation) =>
         history.push(`/dashboard?date=${updatedReservation.reservation_date}`)
       );
   }
 
+  // cancel button handler: redirects to previous page
   function cancel() {
-    // cancel button redirects to previous page
     history.goBack();
   }
 
-  const loadForm = reservation.reservation_id ? ( // conditional render:
-    <ReservationsForm // renders loading message while
-      onCancel={cancel} // reservation state obj loads so
-      initialFormState={reservation} // initial form state contains any
-      onSuccess={editRes} // saved data (or is blank)
+  // conditional render:
+  // renders 'Loading' message while reservation loads,  
+  // then renders form pre-filled with saved reservation details 
+  const loadForm = reservation.reservation_id ? ( 
+    <ReservationForm 
+      onCancel={cancel} 
+      initialFormState={reservation} 
+      onSuccess={editRes} 
     />
   ) : (
     <p>Loading...</p>
