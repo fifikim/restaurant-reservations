@@ -26,8 +26,7 @@ function ReservationsView({ reservations = [], onCancelRes }) {
   const reservationsList = reservations.map((reservation) => (
     <tr key={reservation.reservation_id}>
       <th scope="row">{reservation.reservation_id}</th>
-      <td>{reservation.first_name}</td>
-      <td>{reservation.last_name}</td>
+      <td>{reservation.first_name} {reservation.last_name}</td>
       <td>{reservation.mobile_number}</td>
       <td>{reservation.reservation_time}</td>
       <td>{reservation.people}</td>
@@ -67,8 +66,8 @@ function ReservationsView({ reservations = [], onCancelRes }) {
         <thead className="thead-light">
           <tr>
             <th scope="col">ID</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
+            <th scope="col">Name</th>
+            {/* <th scope="col">Last Name</th> */}
             <th scope="col">Mobile Number</th>
             <th scope="col">Time</th>
             <th scope="col">Party Size</th>

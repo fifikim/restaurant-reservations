@@ -134,7 +134,6 @@ export async function listTables(signal) {
 export async function createTable(table, signal) {
   const url = `${API_BASE_URL}/tables`;
   table.capacity = Number(table.capacity);
-  console.log({ table });
   const options = {
     method: "POST",
     headers,
