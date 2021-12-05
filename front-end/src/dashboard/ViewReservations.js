@@ -40,14 +40,22 @@ function ReservationsView({ reservations = [], onCancelRes }) {
               Seat
             </button>
           </Link>
-        ) : null}
+        ) : 
+          <button type="button" className="btn btn-primary mr-2" disabled="true">
+            Seat
+          </button>
+        }
         {reservation.status === "booked" ? (
           <Link to={`/reservations/${reservation.reservation_id}/edit`}>
             <button type="button" className="btn btn-warning mr-2">
               Edit
             </button>
           </Link>
-        ) : null}
+        ) : 
+          <button type="button" className="btn btn-warning mr-2" disabled="true">
+            Edit
+          </button>
+        }
         <button
           type="button"
           className="btn btn-danger mr-2"

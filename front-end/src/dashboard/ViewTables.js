@@ -23,8 +23,7 @@ function TablesView({ tables = [], onFinish }) {
   // displays reservation ID & 'Finish' button if table is occupied
   const tablesList = tables.map((table) => (
     <tr key={table.table_id}>
-      <th scope="row">{table.table_id}</th>
-      <td>{table.table_name}</td>
+      <th scope="row">{table.table_name}</th>
       <td>{table.capacity}</td>
       <td data-table-id-status={table.table_id}>
         {table.reservation_id
@@ -51,8 +50,7 @@ function TablesView({ tables = [], onFinish }) {
       <table className="table table-dark table-striped table-sm">
         <thead className="thead-dark">
           <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Table Name</th>
+            <th scope="col">Table</th>
             <th scope="col">Capacity</th>
             <th scope="col">Status</th>
           </tr>
