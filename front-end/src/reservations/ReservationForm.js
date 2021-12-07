@@ -17,7 +17,7 @@ function ReservationForm({
   onCancel, 
   initialFormState, 
 }) {
-  const [formData, setFormData] = useState({ ...initialFormState });
+  const [formData, setFormData] = useState(initialFormState);
   const [errors, setErrors] = useState([]);
 
   // form input change handler: saves input to formData state
@@ -36,7 +36,6 @@ function ReservationForm({
     // check for validation errors
     const formErrors = validateForm(formData);
     if (formErrors.length) {
-      console.log("formerrors");
       setErrors(formErrors);
     }
 

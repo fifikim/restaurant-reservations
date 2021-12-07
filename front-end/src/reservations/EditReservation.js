@@ -49,6 +49,11 @@ function EditReservation() {
       <h2>Edit Reservation</h2>
 
       {loadForm}
+      {/* <ReservationForm 
+        onCancel={cancel} 
+        initialFormState={reservation} 
+        onSuccess={editRes} 
+      /> */}
     </>
   );
 }
