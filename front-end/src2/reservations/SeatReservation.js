@@ -5,7 +5,7 @@ import SeatForm from "./SeatForm";
 
 /**
  * renders page view for Seat Reservation route
- * 
+ *
  * @returns {JSX.Element}
  */
 function SeatReservation() {

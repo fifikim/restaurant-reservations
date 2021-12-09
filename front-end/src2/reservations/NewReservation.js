@@ -5,7 +5,7 @@ import ReservationForm from "./ReservationForm";
 
 /**
  * renders page view for New Reservation route
- * 
+ *
  * @returns {JSX.Element}
  */
 function NewReservation() {
@@ -14,10 +14,9 @@ function NewReservation() {
   // reservation form submit button handler
   // creates reservation via api & redirects to reservation date Dashboard
   function newRes(reservation) {
-    createRes(reservation) 
-      .then((newReservation) =>
-        history.push(`/dashboard?date=${newReservation.reservation_date}`)
-      );
+    createRes(reservation).then((newReservation) =>
+      history.push(`/dashboard?date=${newReservation.reservation_date}`)
+    );
   }
 
   // cancel button handler: redirects to Dashboard page for current date

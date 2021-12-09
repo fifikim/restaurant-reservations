@@ -6,7 +6,7 @@ import "./Layout.css";
 
 /**
  * Defines the main layout of the application.
- * 
+ *
  * @returns {JSX.Element}
  */
 function Layout() {

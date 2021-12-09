@@ -6,7 +6,7 @@ import ViewReservations from "../dashboard/ViewReservations";
 /**
  * renders Search Form component
  * displays list of reservations matching inputted mobile number
- * 
+ *
  * @returns {JSX.Element}
  */
 function SearchForm() {

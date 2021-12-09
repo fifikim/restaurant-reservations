@@ -4,14 +4,13 @@ import TableForm from "./TableForm";
 
 /**
  * renders page view for New Table route
- * 
+ *
  * @returns {JSX.Element}
  */
 function NewTable() {
-
   // form submit onSuccess handler: creates new table via api post call
   function newTable(table) {
-    createTable(table); 
+    createTable(table);
   }
 
   return (

@@ -18,7 +18,6 @@ import EditReservation from "../reservations/EditReservation";
  * @returns {JSX.Element}
  */
 function Routes() {
-
   const query = useQuery();
   const date = query.get("date");
 
@@ -35,10 +34,10 @@ function Routes() {
       </Route>
       <Route path="/reservations/:reservation_id/seat">
         <SeatReservation />
-      </Route>      
+      </Route>
       <Route path="/reservations/:reservation_id/edit">
         <EditReservation />
-      </Route>  
+      </Route>
       <Route path="/dashboard">
         <Dashboard date={date || today()} />
       </Route>
@@ -56,5 +55,3 @@ function Routes() {
 }
 
 export default Routes;
-
-

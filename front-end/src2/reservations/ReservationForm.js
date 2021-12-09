@@ -5,32 +5,28 @@ import { validateForm } from "../utils/reservations-validation";
 /**
  * renders Reservation Form component
  * creates new reservation or edits existing reservation
- * 
+ *
  * @param onSuccess {function} form onSubmit handler
  * @param onCancel {function} form Cancel handler
  * @param initialState {object} saved Reservation state (or blank)
- * 
+ *
  * @returns {JSX.Element}
  */
-function ReservationForm({
-  onSuccess, 
-  onCancel, 
-  initialFormState, 
-}) {
+function ReservationForm({ onSuccess, onCancel, initialFormState }) {
   const [formData, setFormData] = useState(initialFormState);
   const [errors, setErrors] = useState([]);
 
   // form input change handler: saves input to formData state
   const handleInputChange = ({ target }) => {
     setFormData({
-      ...formData, 
-      [target.name]: target.value, 
+      ...formData,
+      [target.name]: target.value,
     });
   };
 
   // form submit handler
   async function submitHandler(event) {
-    event.preventDefault(); 
+    event.preventDefault();
     console.log("submit");
 
     // check for validation errors

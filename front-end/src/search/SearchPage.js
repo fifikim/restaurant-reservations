@@ -1,15 +1,17 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { seatRes } from '../utils/api';
-import SearchForm from './SearchForm';
+import React from "react";
+import { useHistory } from "react-router-dom";
+import { seatRes } from "../utils/api";
+import SearchForm from "./SearchForm";
 
 /**
- * 
- * @returns renders page view for New Reservation route
+ * renders page view for Search Page route
+ *
+ * @returns {JSX.Element}
  */
 function SearchPage() {
   const history = useHistory();
 
+  // cancel button handler: redirect to Dashboard for current date
   function cancel() {
     history.push(`/dashboard`);
   }
@@ -18,12 +20,9 @@ function SearchPage() {
     <>
       <h2>Search Reservations </h2>
 
-      <SearchForm
-        onSuccess={seatRes}
-        onCancel={cancel} 
-      />
+      <SearchForm onSuccess={seatRes} onCancel={cancel} />
     </>
-  )
+  );
 }
 
 export default SearchPage;

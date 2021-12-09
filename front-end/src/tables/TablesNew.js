@@ -1,26 +1,25 @@
-import React from 'react';
-import { createTable } from '../utils/api';
-import TablesForm from './TablesForm';
+import React from "react";
+import { createTable } from "../utils/api";
+import TablesForm from "./TablesForm";
 
 /**
- * 
- * @returns renders page view for New Reservation route
+ * renders page view for New Table route
+ *
+ * @returns {JSX.Element}
  */
 function TablesNew() {
-
-  function newTable(table) {    // onSuccess handler: creates res via api
-    createTable(table) // post call & redirects to res date dashboard
+  // form submit onSuccess handler: creates new table via api post call
+  function newTable(table) {
+    createTable(table);
   }
 
   return (
-    <>
-    <h2>Create Table</h2>
+    <div>
+      <h2>Create Table</h2>
 
-    <TablesForm 
-      onSuccess={newTable}
-    />
-  </>
-  )
+      <TablesForm onSuccess={newTable} />
+    </div>
+  );
 }
 
 export default TablesNew;

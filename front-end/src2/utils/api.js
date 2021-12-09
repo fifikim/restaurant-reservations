@@ -50,7 +50,7 @@ async function fetchJson(url, options, onCancel) {
   }
 }
 
-// API CALLS: RESERVATIONS 
+// API CALLS: RESERVATIONS
 
 // return a list of all reservations by date
 export async function listReservations(params, signal) {
@@ -122,7 +122,7 @@ export async function cancelStatus(reservation_id, signal) {
   return await fetchJson(url, options, {});
 }
 
-// API CALLS: TABLES 
+// API CALLS: TABLES
 
 // return a list of all tables with status not "finished" or "cancelled"
 export async function listTables(signal) {

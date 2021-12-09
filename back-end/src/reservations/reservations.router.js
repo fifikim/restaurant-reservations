@@ -1,5 +1,5 @@
 /**
- * Defines the router for reservation resources.
+ * Defines the router for /reservations resource
  *
  * @type {Router}
  */

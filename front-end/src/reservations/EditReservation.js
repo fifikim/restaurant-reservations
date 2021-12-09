@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { readRes, updateRes } from '../utils/api';
-import ReservationsForm from './ReservationsForm';
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { readRes, updateRes } from "../utils/api";
+import ReservationsForm from "./ReservationsForm";
 
+/**
+ * renders page view for Edit Reservation route
+ *
+ * @returns {JSX.Element}
+ */
 function EditReservation() {
   const history = useHistory();
   const { reservation_id } = useParams();
@@ -12,33 +17,39 @@ function EditReservation() {
     readRes(reservation_id).then(setReservation);
   }, [reservation_id]);
 
-  function editRes(reservation_id) {    // onSuccess handler: creates res via api
-    updateRes(reservation_id) // post call & redirects to res date dashboard
-      .then((updatedReservation) => 
-        history.push(`/dashboard?date=${updatedReservation.reservation_date}`));
+  // reservation form submit button handler
+  // updates reservation via api & redirects to reservation date Dashboard
+  function editRes(reservation_id) {
+    updateRes(reservation_id).then((updatedReservation) =>
+      history.push(`/dashboard?date=${updatedReservation.reservation_date}`)
+    );
   }
 
-  function cancel() {             // cancel button redirects to dashboard page
+  // cancel button handler: redirects to previous page
+  function cancel() {
     history.goBack();
   }
 
-  const loadForm = reservation.reservation_id ? (   // conditional render: renders DeckForm if state 
-    <ReservationsForm                 // contains value of deck.id, otherwise will 
-      onCancel={cancel}       // display "Loading" message
+  // conditional render:
+  // renders 'Loading' message while reservation loads,
+  // then renders form pre-filled with saved reservation details
+  const loadForm = reservation.reservation_id ? (
+    <ReservationsForm
+      onCancel={cancel}
       initialFormState={reservation}
-      onSuccess={editRes}    // edit-specific props passed to Deck Form 
+      onSuccess={editRes}
     />
   ) : (
     <p>Loading...</p>
   );
 
   return (
-  <>
-    <h2>Edit Reservation</h2>
+    <div>
+      <h2>Edit Reservation</h2>
 
-    {loadForm}
-  </>
-  )
+      {loadForm}
+    </div>
+  );
 }
 
 export default EditReservation;

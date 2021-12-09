@@ -5,7 +5,7 @@ import SearchForm from "./SearchForm";
 
 /**
  * renders page view for Search Page route
- * 
+ *
  * @returns {JSX.Element}
  */
 function SearchPage() {
