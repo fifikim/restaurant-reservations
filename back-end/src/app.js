@@ -15,7 +15,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// routing
+// routing for each path
 app.use("/reservations", reservationsRouter);
 app.use("/tables", tablesRouter);
 

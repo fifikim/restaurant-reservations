@@ -178,7 +178,7 @@ function notFinished(_req, res, next) {
   return next();
 }
 
-// ROUTE HANDLERS
+// CRUD OPERATIONS
 
 // Create new reservation
 async function create(_req, res) {
