@@ -47,11 +47,11 @@ Search for a reservation by phone number (partial or complete) to quickly access
 Modify a reservation if a customer calls to change or cancel their reservation. <br/>Reservations are always accurate and current.
 
 ## Preview
-![]/screenshots/dashboard.png
-![]/screenshots/create-reservation.png
-![]/screenshots/edit-reservation.png
-![]/screenshots/create-table.png
-![]/screenshots/search-reservations.png
+![](/screenshots/dashboard.png)
+![](/screenshots/create-reservation.png)
+![](/screenshots/edit-reservation.png)
+![](/screenshots/create-table.png)
+![](/screenshots/search-reservations.png)
 
 ## API Documentation
 
