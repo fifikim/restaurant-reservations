@@ -12,7 +12,7 @@ function ErrorAlert({ error }) {
   return (
     error && (
       <li>
-        <div className="alert alert-danger m-2">Error: {error}</div>
+        <div key={error} className="alert alert-danger m-2">Error: {error}</div>
       </li>
     )
   );

@@ -12,14 +12,13 @@ import { validateForm } from "../utils/reservations-validation";
  *
  * @returns {JSX.Element}
  */
-function ReservationsForm({ onSuccess, onCancel, initialFormState }) {
-  const [formData, setFormData] = useState({ ...initialFormState });
+function ReservationsForm({ onSuccess, onCancel, reservation, setReservation }) {
   const [errors, setErrors] = useState([]);
 
-  // form input change handler: saves input to formData state
+  // form input change handler: saves input to reservation state
   const handleInputChange = ({ target }) => {
-    setFormData({
-      ...formData,
+    setReservation({
+      ...reservation,
       [target.name]: target.value,
     });
   };
@@ -29,14 +28,14 @@ function ReservationsForm({ onSuccess, onCancel, initialFormState }) {
     event.preventDefault();
 
     // check for validation errors
-    const formErrors = validateForm(formData);
+    const formErrors = validateForm(reservation);
     if (formErrors.length) {
       setErrors(formErrors);
     }
 
     // if no errors, submit api post call & redirect to Dashboard
     else {
-      await onSuccess({ ...formData });
+      await onSuccess({ ...reservation });
     }
   }
 
@@ -53,7 +52,7 @@ function ReservationsForm({ onSuccess, onCancel, initialFormState }) {
         <div className="mb-3">
           <label htmlFor="first_name">First name:</label>
           <input
-            value={formData.first_name}
+            value={reservation.first_name}
             onChange={handleInputChange}
             name="first_name"
             id="first_name"
@@ -65,7 +64,7 @@ function ReservationsForm({ onSuccess, onCancel, initialFormState }) {
         <div className="mb-3">
           <label htmlFor="last_name">Last name:</label>
           <input
-            value={formData.last_name}
+            value={reservation.last_name}
             onChange={handleInputChange}
             name="last_name"
             id="last_name"
@@ -77,7 +76,7 @@ function ReservationsForm({ onSuccess, onCancel, initialFormState }) {
         <div className="mb-3">
           <label htmlFor="mobile_number">Mobile number:</label>
           <input
-            value={formData.mobile_number}
+            value={reservation.mobile_number}
             onChange={handleInputChange}
             name="mobile_number"
             id="mobile_number"
@@ -90,7 +89,7 @@ function ReservationsForm({ onSuccess, onCancel, initialFormState }) {
         <div className="mb-3">
           <label htmlFor="reservation_date">Date of reservation:</label>
           <input
-            value={formData.reservation_date}
+            value={reservation.reservation_date}
             onChange={handleInputChange}
             name="reservation_date"
             id="reservation_date"
@@ -104,7 +103,7 @@ function ReservationsForm({ onSuccess, onCancel, initialFormState }) {
         <div className="mb-3">
           <label htmlFor="reservation_time">Time of reservation:</label>
           <input
-            value={formData.reservation_time}
+            value={reservation.reservation_time}
             onChange={handleInputChange}
             name="reservation_time"
             id="reservation_time"
@@ -118,7 +117,7 @@ function ReservationsForm({ onSuccess, onCancel, initialFormState }) {
         <div className="mb-3">
           <label htmlFor="people">Number of people in party:</label>
           <input
-            value={formData.people}
+            value={reservation.people}
             onChange={handleInputChange}
             name="people"
             id="people"

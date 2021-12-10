@@ -36,7 +36,8 @@ function EditReservation() {
   const loadForm = reservation.reservation_id ? (
     <ReservationsForm
       onCancel={cancel}
-      initialFormState={reservation}
+      reservation={reservation}
+      setReservation={setReservation}
       onSuccess={editRes}
     />
   ) : (

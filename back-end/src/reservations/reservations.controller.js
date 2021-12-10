@@ -251,7 +251,6 @@ module.exports = {
     hasFutureDate,
     hasValidDay,
     hasPermittedTime,
-    hasBookedStatus,
     asyncErrorBoundary(update),
   ],
   list: [asyncErrorBoundary(list)],

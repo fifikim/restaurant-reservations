@@ -46,6 +46,28 @@ Search for a reservation by phone number (partial or complete) to quickly access
 
 Modify a reservation if a customer calls to change or cancel their reservation. <br/>Reservations are always accurate and current.
 
+## API Documentation
+
+Reservation Routes:
+
+| Method | Path | Description |
+|-----------------------------|
+|GET  | /reservations | List all reservations by given date or current date |
+|POST | /reservations | Create a new reservation |
+|GET  | /reservations/:reservation_id | Fetch a single reservation |
+|PUT  | /reservations/:reservation_id | Update the details of a reservation |
+|PUT  | /reservations/:reservation_id/status | Update the status of a reservation |
+
+Table Routes:
+
+| Method | Path | Description |
+|-----------------------------|
+|GET  | /tables | List all tables |
+|POST | /tables | Create a new table |
+|GET  | /tables/:table_id | Fetch a single table |
+|PUT  | /tables/:table_id/seat | Seat a 
+
+
 ## Installation
 
 1. Fork and clone this repository.
