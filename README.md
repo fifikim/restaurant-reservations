@@ -51,7 +51,7 @@ Modify a reservation if a customer calls to change or cancel their reservation. 
 Reservation Routes:
 
 | Method | Path | Description |
-|-----------------------------|
+|---------|--------------------|-----------------------------------------------|
 |GET  | /reservations | List all reservations by given date or current date |
 |POST | /reservations | Create a new reservation |
 |GET  | /reservations/:reservation_id | Fetch a single reservation |
@@ -61,7 +61,7 @@ Reservation Routes:
 Table Routes:
 
 | Method | Path | Description |
-|-----------------------------|
+|---------|--------------------|-----------------------------------------------|
 |GET  | /tables | List all tables |
 |POST | /tables | Create a new table |
 |GET  | /tables/:table_id | Fetch a single table |
