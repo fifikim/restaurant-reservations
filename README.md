@@ -46,6 +46,13 @@ Search for a reservation by phone number (partial or complete) to quickly access
 
 Modify a reservation if a customer calls to change or cancel their reservation. <br/>Reservations are always accurate and current.
 
+## Preview
+![]/screenshots/dashboard.png
+![]/screenshots/create-reservation.png
+![]/screenshots/edit-reservation.png
+![]/screenshots/create-table.png
+![]/screenshots/search-reservations.png
+
 ## API Documentation
 
 Reservation Routes:
@@ -78,6 +85,11 @@ Table Routes:
 1. Run `npx knex migrate:latest`.
 1. Run `npx knex seed:run`.
 1. Run `npm run start:dev` to start your server in development mode.
+
+## Tech Stack
+
+1. Front End: JavaScript, React, HTML, CSS, BootStrap
+1. Back End: Node.js, Express, Knex, PostgreSQL
 
 ## File Structure
 

@@ -35,6 +35,9 @@ export default function NewReservation() {
     }
     
     return (
-        <ReservationsForm formData={formData} setFormData={setFormData} error={error} submitHandler={submitHandler} />
+        <div>
+            <h1>Create New Reservation</h1>
+            <ReservationsForm formData={formData} setFormData={setFormData} error={error} submitHandler={submitHandler} />
+        </div>
     );
 }

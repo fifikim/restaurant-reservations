@@ -55,7 +55,8 @@ function Dashboard({ date }) {
       <NavButtons date={date} />
 
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date: {date} </h4>
+        <h4 className="mb-0">Reservations for date: </h4>
+        <h4 className="mb-0">{date}</h4>
         <ErrorAlert error={reservationsError} />
       </div>
 

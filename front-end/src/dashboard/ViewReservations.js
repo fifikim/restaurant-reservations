@@ -60,7 +60,7 @@ function ReservationsView({ reservations = [], onCancelRes }) {
   ));
 
   return (
-    <div>
+    <div className="table-responsive-md">
       <table className="table table-hover table-bordered">
         <thead className="thead-light">
           <tr>

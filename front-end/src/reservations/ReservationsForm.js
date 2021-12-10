@@ -24,7 +24,6 @@ export default function ReservationsForm({ formData, setFormData, error, submitH
 
     return (
         <main>
-            <h1>Create a new reservation</h1>
             <ErrorAlert error={error} />
             <div className="d-md-flex mb-3">
                 <div className=''>

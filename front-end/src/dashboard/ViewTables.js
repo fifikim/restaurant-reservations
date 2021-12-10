@@ -46,7 +46,7 @@ function TablesView({ tables = [], onFinish }) {
   ));
 
   return (
-    <div>
+    <div className="table-responsive-md">
       <table className="table table-dark table-striped table-sm">
         <thead className="thead-dark">
           <tr>

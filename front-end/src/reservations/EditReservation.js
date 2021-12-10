@@ -57,6 +57,10 @@ export default function EditReservation() {
     }
     
     return (
-        <ReservationsForm formData={formData} setFormData={setFormData} error={error} submitHandler={submitHandler} />
+        <div>
+            <h1>Edit Reservation</h1>
+            <ReservationsForm formData={formData} setFormData={setFormData} error={error} submitHandler={submitHandler} />
+        </div>
+        
     );
 }
