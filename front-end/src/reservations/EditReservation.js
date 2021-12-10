@@ -1,56 +1,62 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { readRes, updateRes } from "../utils/api";
 import ReservationsForm from "./ReservationsForm";
 
 /**
- * renders page view for Edit Reservation route
- *
+ * A form for editing a current reservation
  * @returns {JSX.Element}
+ *  a updated reservation in the list
  */
-function EditReservation() {
-  const history = useHistory();
-  const { reservation_id } = useParams();
-  const [reservation, setReservation] = useState({});
-
-  useEffect(() => {
-    readRes(reservation_id).then(setReservation);
-  }, [reservation_id]);
-
-  // reservation form submit button handler
-  // updates reservation via api & redirects to reservation date Dashboard
-  function editRes(reservation_id) {
-    updateRes(reservation_id).then((updatedReservation) =>
-      history.push(`/dashboard?date=${updatedReservation.reservation_date}`)
+export default function EditReservation() {
+    const history = useHistory();
+    const { reservation_id } = useParams();
+    const [error, setError] = useState(null);
+    const initalFormData = {
+        first_name: '',
+        last_name: '',
+        mobile_number: '',
+        reservation_date: '',
+        reservation_time: '',
+        people: '',
+    };
+    const [formData, setFormData] = useState({ ...initalFormData });
+    
+    // load existing reservation info into form
+    useEffect(() => {
+    const getReservation = async () => {
+        const ac = new AbortController();
+        try {
+        const reservation = await readRes(reservation_id, ac.signal);
+        const { first_name, last_name, mobile_number, reservation_date, reservation_time, people } = reservation;
+        setFormData({
+            first_name,
+            last_name,
+            mobile_number,
+            reservation_date,
+            reservation_time,
+            people
+        })
+        } catch (error) {
+        setError(error);
+        }
+    }
+    getReservation();
+    }, [reservation_id])
+   
+    const submitHandler = async (event) => {
+        event.preventDefault();
+        const ac = new AbortController();
+        try {
+            formData.people = Number(formData.people);
+            await updateRes(reservation_id, formData, ac.signal);
+            history.push(`/dashboard?date=${formData.reservation_date}`);
+        } catch (error) {
+            setError(error);
+        }
+    }
+    
+    return (
+        <ReservationsForm formData={formData} setFormData={setFormData} error={error} submitHandler={submitHandler} />
     );
-  }
-
-  // cancel button handler: redirects to previous page
-  function cancel() {
-    history.goBack();
-  }
-
-  // conditional render:
-  // renders 'Loading' message while reservation loads,
-  // then renders form pre-filled with saved reservation details
-  const loadForm = reservation.reservation_id ? (
-    <ReservationsForm
-      onCancel={cancel}
-      reservation={reservation}
-      setReservation={setReservation}
-      onSuccess={editRes}
-    />
-  ) : (
-    <p>Loading...</p>
-  );
-
-  return (
-    <div>
-      <h2>Edit Reservation</h2>
-
-      {loadForm}
-    </div>
-  );
 }
-
-export default EditReservation;

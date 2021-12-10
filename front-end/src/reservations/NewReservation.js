@@ -1,36 +1,40 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { useHistory } from "react-router";
 import { createRes } from "../utils/api";
 import ReservationsForm from "./ReservationsForm";
 
 /**
- * renders page view for New Reservation route
- *
+ * A form for submitting a new reservation
  * @returns {JSX.Element}
+ *  an updated reservations list
  */
-function NewReservation() {
-  const history = useHistory();
+export default function NewReservation() {
+    const history = useHistory();
+    const [error, setError] = useState(null);
+    const initalFormData = {
+        first_name: '',
+        last_name: '',
+        mobile_number: '',
+        reservation_date: '',
+        reservation_time: '',
+        people: '',
+    };
+    const [formData, setFormData] = useState({ ...initalFormData });
 
-  // reservation form submit button handler
-  // creates reservation via api & redirects to reservation date Dashboard
-  function newRes(reservation) {
-    createRes(reservation).then((newReservation) =>
-      history.push(`/dashboard?date=${newReservation.reservation_date}`)
+    // on submit send api post call & redirect to dashboard for reservation date
+    const submitHandler = async (event) => {
+        event.preventDefault();
+        const ac = new AbortController();
+        try {
+            formData.people = Number(formData.people);
+            await createRes(formData, ac.signal);
+            history.push(`/dashboard?date=${formData.reservation_date}`);
+        } catch (error) {
+            setError(error);
+        }
+    }
+    
+    return (
+        <ReservationsForm formData={formData} setFormData={setFormData} error={error} submitHandler={submitHandler} />
     );
-  }
-
-  // cancel button handler: redirects to Dashboard page for current date
-  function cancel() {
-    history.push(`/dashboard`);
-  }
-
-  return (
-    <div>
-      <h2>Create Reservation</h2>
-
-      <ReservationsForm onSuccess={newRes} onCancel={cancel} />
-    </div>
-  );
 }
-
-export default NewReservation;

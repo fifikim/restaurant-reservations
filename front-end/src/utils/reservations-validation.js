@@ -6,14 +6,14 @@ function validateFuture(date, time) {
   return todaysDate < stringToDate;
 }
 
-function validateDay(date, time) {
-  // find out what day of week date occurs
-  // return false if day of week is Tuesday(2)
-  const dateTime = date + " " + time;
-  const stringToDate = new Date(dateTime);
-  const day = stringToDate.getDay();
-  return day !== 2;
-}
+// function validateDay(date, time) {
+//   // find out what day of week date occurs
+//   // return false if day of week is Tuesday(2)
+//   const dateTime = date + " " + time;
+//   const stringToDate = new Date(dateTime);
+//   const day = stringToDate.getDay();
+//   return day !== 2;
+// }
 
 function validateTime(time) {
   // check that reservation time begins within valid timeframe
@@ -35,14 +35,14 @@ function validateTime(time) {
 export function validateForm(formData) {
   const errors = [];
 
-  // validate day of week
-  if (
-    !validateDay(formData["reservation_date"], formData["reservation_time"])
-  ) {
-    errors.push(
-      "Restaurant is closed on Tuesdays. Please select a different reservation date."
-    );
-  }
+  // // validate day of week
+  // if (
+  //   !validateDay(formData["reservation_date"], formData["reservation_time"])
+  // ) {
+  //   errors.push(
+  //     "Restaurant is closed on Tuesdays. Please select a different reservation date."
+  //   );
+  // }
 
   // validate future date
   if (

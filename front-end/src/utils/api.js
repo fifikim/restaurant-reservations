@@ -85,7 +85,7 @@ export async function createRes(reservation, signal) {
     body: JSON.stringify({ data: reservation }),
     signal,
   };
-  return await fetchJson(url, options, {});
+  return await fetchJson(url, options, reservation);
 }
 
 // return a single reservation by ID
@@ -96,12 +96,14 @@ export async function readRes(reservation_id, signal) {
     headers,
     signal,
   };
-  return await fetchJson(url, options, {});
+  return await fetchJson(url, options, reservation_id)
+    .then(formatReservationDate)
+    .then(formatReservationTime);
 }
 
 // update a single reservation
-export async function updateRes(reservation, signal) {
-  const url = `${API_BASE_URL}/reservations/${reservation.reservation_id}`;
+export async function updateRes(reservation_id, reservation, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}`;
   reservation.people = Number(reservation.people);
   const options = {
     method: "PUT",
@@ -109,7 +111,7 @@ export async function updateRes(reservation, signal) {
     body: JSON.stringify({ data: reservation }),
     signal,
   };
-  return await fetchJson(url, options, {});
+  return await fetchJson(url, options, reservation);
 }
 
 // update a single reservation to "cancelled" status
