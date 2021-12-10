@@ -1,11 +1,6 @@
 import { useHistory } from "react-router";
 import ErrorAlert from "../layout/ErrorAlert";
 
-/**
- * A basic form layout for a reservation
- * @returns {JSX.Element}
- *  a form prefilled with info or not
- */
 export default function ReservationsForm({ formData, setFormData, error, submitHandler}) {
     const history = useHistory();
 
