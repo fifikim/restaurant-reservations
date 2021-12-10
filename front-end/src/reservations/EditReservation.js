@@ -3,11 +3,6 @@ import { useHistory, useParams } from "react-router-dom";
 import { readRes, updateRes } from "../utils/api";
 import ReservationsForm from "./ReservationsForm";
 
-/**
- * A form for editing a current reservation
- * @returns {JSX.Element}
- *  a updated reservation in the list
- */
 export default function EditReservation() {
     const history = useHistory();
     const { reservation_id } = useParams();

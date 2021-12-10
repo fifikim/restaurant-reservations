@@ -3,11 +3,6 @@ import { useHistory } from "react-router";
 import { createRes } from "../utils/api";
 import ReservationsForm from "./ReservationsForm";
 
-/**
- * A form for submitting a new reservation
- * @returns {JSX.Element}
- *  an updated reservations list
- */
 export default function NewReservation() {
     const history = useHistory();
     const [error, setError] = useState(null);
