@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ViewReservations from "./ViewReservations";
-import ViewTables from "./ViewTables";
+import ErrorAlert from "../layout/ErrorAlert";
 import {
   listReservations,
   listTables,
@@ -8,7 +7,8 @@ import {
   cancelStatus,
 } from "../utils/api";
 import NavButtons from "./NavButtons";
-import ErrorAlert from "../layout/ErrorAlert";
+import ViewReservations from "./ViewReservations";
+import ViewTables from "./ViewTables";
 
 /**
  * renders Dashboard page
@@ -47,22 +47,25 @@ function Dashboard({ date }) {
   function onCancelRes(reservationId) {
     cancelStatus(reservationId).then(loadDashboard).catch(setReservationsError);
   }
-
   return (
     <main>
-      <h1>Dashboard</h1>
-
-      <NavButtons date={date} />
+      <body class="container mt-4">
+        <div class="row">
+          <div class="col col-lg-5">
+            <NavButtons date={date} />
+          </div>
+          <div class="col col-lg-7">
+            <div className="d-md-flex mb-3">
+              <ViewTables tables={tables} onFinish={onFinish} />
+            </div>
+          </div>
+        </div>
+      </body>
 
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date: </h4>
-        <h4 className="mb-0">{date}</h4>
         <ErrorAlert error={reservationsError} />
       </div>
 
-      <div className="d-md-flex mb-3">
-        <ViewTables tables={tables} onFinish={onFinish} />
-      </div>
       <div className="d-md-flex mb-3">
         <ViewReservations
           reservations={reservations}

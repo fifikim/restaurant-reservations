@@ -21,13 +21,12 @@ function ReservationsView({ reservations = [], onCancelRes }) {
   }
 
   // maps reservations passed from parent component to table rows
-  // displays 'Seat', 'Edit', 'Cancel' buttons
+  // displays 'Seat', 'Edit', 'Cancel' buttons 
   // hides button selections not allowed under reservation current status
   const reservationsList = reservations.map((reservation) => (
     <tr key={reservation.reservation_id}>
       <th scope="row">{reservation.reservation_id}</th>
-      <td>{reservation.first_name}</td>
-      <td>{reservation.last_name}</td>
+      <td>{reservation.first_name} {reservation.last_name}</td>
       <td>{reservation.mobile_number}</td>
       <td>{reservation.reservation_time}</td>
       <td>{reservation.people}</td>
@@ -41,12 +40,22 @@ function ReservationsView({ reservations = [], onCancelRes }) {
               Seat
             </button>
           </Link>
-        ) : null}
-        <Link to={`/reservations/${reservation.reservation_id}/edit`}>
-          <button type="button" className="btn btn-secondary mr-2">
+        ) : 
+          <button type="button" className="btn btn-primary mr-2" disabled="true">
+            Seat
+          </button>
+        }
+        {reservation.status === "booked" ? (
+          <Link to={`/reservations/${reservation.reservation_id}/edit`}>
+            <button type="button" className="btn btn-warning mr-2">
+              Edit
+            </button>
+          </Link>
+        ) : 
+          <button type="button" className="btn btn-warning mr-2" disabled="true">
             Edit
           </button>
-        </Link>
+        }
         <button
           type="button"
           className="btn btn-danger mr-2"
@@ -60,23 +69,23 @@ function ReservationsView({ reservations = [], onCancelRes }) {
   ));
 
   return (
-    <div className="table-responsive-md">
+    <>
       <table className="table table-hover table-bordered">
         <thead className="thead-light">
           <tr>
-            <th scope="col">Reservation ID</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            {/* <th scope="col">Last Name</th> */}
             <th scope="col">Mobile Number</th>
-            <th scope="col">Reservation Time</th>
-            <th scope="col">People</th>
+            <th scope="col">Time</th>
+            <th scope="col">Party Size</th>
             <th scope="col">Status</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>{reservationsList}</tbody>
       </table>
-    </div>
+    </>
   );
 }
 
