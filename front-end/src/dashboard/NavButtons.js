@@ -18,7 +18,8 @@ export default function NavButtons({ date }) {
     history.push(`/dashboard?date=${today()}`);
   }
 
-  function goToDate() {
+  // TO-DO: add datepicker to display on button click
+  function goToDate() { 
     history.push(`/dashboard?date=${today()}`);
   }
 
@@ -38,26 +39,26 @@ export default function NavButtons({ date }) {
     <>
       <row className="mt-6">
       <div className="btn-group" role="group" aria-label="Jump to Date">
-          <button type="button" className="btn btn-success" onClick={goToday}>
+          <button type="button" className="btn btn-success pl-4" onClick={goToday}>
             Jump to Today
           </button>
-          <button type="button" className="btn btn-warning" onClick={goToday}>
-            Jump to Date
+          <button type="button" className="btn btn-warning" onClick={goToDate}>
+            <span class="oi oi-calendar" alt="calendar"></span> Jump to Date 
           </button>
         </div>
         <h2 className="mt-3 mb-0">Reservations for:</h2>
         <h1>{`${dateString}`} </h1>
-        <div className="btn-group" role="group" aria-label="Go Back or Forward">
+        <div className="btn-group mt-2" role="group" aria-label="Go Back or Forward">
           <button
             type="button"
-            className="btn btn-danger"
+            className="btn btn-danger px-4"
             onClick={goPreviousDay}
-          >{`<<Previous Day`}</button>
+          ><span class="oi oi-chevron-left"></span> Previous Day</button>
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-primary px-4"
             onClick={goNextDay}
-          >{`Next Day>>`}</button>
+          >  Next Day <span class="oi oi-chevron-right"></span></button>
         </div>
       </row>
     </>
