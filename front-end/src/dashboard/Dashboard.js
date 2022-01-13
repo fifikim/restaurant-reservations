@@ -49,18 +49,18 @@ function Dashboard({ date }) {
   }
   return (
     <main>
-      <body class="container mt-4">
-        <div class="row">
-          <div class="col col-lg-5">
+      <div className="container mt-4">
+        <div className="row">
+          <div className="col col-lg-5">
             <NavButtons date={date} />
           </div>
-          <div class="col col-lg-7">
+          <div className="col col-lg-7">
             <div className="d-md-flex mb-3">
               <ViewTables tables={tables} onFinish={onFinish} />
             </div>
           </div>
         </div>
-      </body>
+      </div>
 
       <div className="d-md-flex mb-3">
         <ErrorAlert error={reservationsError} />
