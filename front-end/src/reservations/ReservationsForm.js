@@ -10,7 +10,6 @@ export default function ReservationsForm({ formData, setFormData, error, submitH
             ...formData,
             [name]: value,
         });
-        console.log(name, value);
     }
 
     // cancel redirects to previous page

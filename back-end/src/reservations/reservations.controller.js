@@ -61,9 +61,9 @@ function hasValidDate(req, res, next) {
 // validates that reservation date is in the future
 function hasFutureDate(_req, res, next) {
   const dateTime = res.locals.date + " " + res.locals.time;
-  const reservationDate = new Date(dateTime);
+  const reservationDate = new Date(dateTime).getUTCDate();
   const todaysDate = Date.now();
-  if (todaysDate.UTC() >= reservationDate.UTC()) {
+  if (todaysDate >= reservationDate) {
     return next({
       status: 400,
       message: "Reservation must occur in the future",
