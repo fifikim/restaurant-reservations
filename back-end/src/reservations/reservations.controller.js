@@ -59,18 +59,18 @@ function hasValidDate(req, res, next) {
 }
 
 // validates that reservation date is in the future
-function hasFutureDate(_req, res, next) {
-  const dateTime = res.locals.date + " " + res.locals.time;
-  const reservationDate = new Date(dateTime);
-  const todaysDate = Date.now();
-  if (todaysDate >= reservationDate) {
-    return next({
-      status: 400,
-      message: "Reservation must occur in the future",
-    });
-  }
-  next();
-}
+// function hasFutureDate(_req, res, next) {
+//   const dateTime = res.locals.date + " " + res.locals.time;
+//   const reservationDate = new Date(dateTime);
+//   const todaysDate = Date.now();
+//   if (todaysDate >= reservationDate) {
+//     return next({
+//       status: 400,
+//       message: "Reservation must occur in the future",
+//     });
+//   }
+//   next();
+// }
 
 // validates that reservation date is not on a Tuesday
 function hasValidDay(_req, res, next) {
