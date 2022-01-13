@@ -10,12 +10,6 @@ export default function ReservationsForm({ formData, setFormData, error, submitH
             ...formData,
             [name]: value,
         });
-        if (name === 'reservation_time') {
-            console.log(value);
-            const date = Date.now();
-            const datetime = new Date(formData.reservation_date + " " + value);
-            console.log(datetime > date);
-        }
     }
 
     // cancel redirects to previous page
