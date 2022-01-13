@@ -42,7 +42,7 @@ export default function NavButtons({ date }) {
           <button type="button" className="btn btn-success pl-4" onClick={goToday}>
             Jump to Today
           </button>
-          <button type="button" className="btn btn-warning" onClick={goToDate}>
+          <button type="button" className="btn btn-warning" onClick={goToDate} disabled="true"> 
             <span class="oi oi-calendar" alt="calendar"></span> Jump to Date 
           </button>
         </div>
