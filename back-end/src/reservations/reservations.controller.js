@@ -62,7 +62,7 @@ function hasValidDate(req, res, next) {
 function hasFutureDate(_req, res, next) {
   const dateTime = res.locals.date + " " + res.locals.time;
   const reservationDate = new Date(dateTime).getUTCDate();
-  const todaysDate = Date.now();
+  const todaysDate = Date.now().getUTCDate();
   if (todaysDate >= reservationDate) {
     return next({
       status: 400,
